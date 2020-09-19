@@ -1,3 +1,10 @@
+:root {
+    --weaterh-card-color: royalblue;
+    --current-weather-bg: lightgrey;
+    --bg-color: black;
+    --light-text: #ffffff;
+  }
+
 .va {
     display: flex;
     align-items: center;
@@ -43,6 +50,11 @@
   hr.content-divider {
     max-width: 75px;
     height: 5px;
+  }
+
+  hr.card-content-divider {
+      max-width: 80%;
+      height: 5px;
   }
   
   #weather {
@@ -96,4 +108,17 @@
   
   input::placeholder {
     color: white !important;
+  }
+
+
+.fiveDay {
+    background-color: var(--weaterh-card-color);
+  }
+
+  .card{
+    background: var(--current-weather-bg);
+    /* width: 25%; */
+  }
+  .card-content{
+      padding: 0;
   }
