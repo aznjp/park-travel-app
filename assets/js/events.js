@@ -34,6 +34,10 @@ async function getEventInfo(city) {
             "class": "card-content",
             "id": "card1"
         });
+        var newCardContentImg = $("<div>").attr({
+            "class": "card-content",
+            "id": "cardimg"
+        });
         var newCardContent2 = $("<div>").attr({
             "class": "card-content",
             "id": "card2"
@@ -45,6 +49,7 @@ async function getEventInfo(city) {
 
         $(newCard).append(newCardHeader);
         $(newCard).append(newCardContent1);
+        $(newCard).append(newCardContentImg);
         $(newCard).append(newCardContent2);
         $(newCard).append(newCardFooter);
 
@@ -53,16 +58,13 @@ async function getEventInfo(city) {
         newCardContent1.append($("<p>").html("Activity: " + eventType).attr("class", "is-size-2"));
         newCardContent1.append($("<p>").html("Genre: " + eventGenre).attr("class", "is-size-3"));
 
-        for (let j = 0; j < 5; j++) {
+        for (let j = 0; j < 10; j++) {
             // const element = array[index];
             var imageItemRatio = data._embedded.events[index].images[j].ratio
-            var imageItemWidth = data._embedded.events[index].images[j].width
-            if (imageItemRatio === "3_2" && imageItemWidth <= 640) {
+            if (imageItemRatio === "4_3") {
                 console.log(imageItemRatio)
                 var eventImage = data._embedded.events[index].images[j].url
-                newCardContent1.append($("<img>").attr("src", eventImage));
-            } else if ("src" === null) {
-                newCardContent1.append($("<img>").attr("src", "./assets/images/imageplaceholder.jpg"));
+                newCardContentImg.append($("<img>").attr("src", eventImage));
             }
         }
 
@@ -79,10 +81,10 @@ async function getEventInfo(city) {
         var eventTicketURL = data._embedded.events[index].url
 
 
-        newCardContent2.append($("<p>").html("<strong>Date: </strong>" + eventStartDate).attr("class", "is-size-5"));
-        newCardContent2.append($("<p>").html("<strong>Time: </strong>" + eventStartTime).attr("class", "is-size-5"));
-        newCardContent2.append($("<p>").html("<strong>Location: </strong>" + eventAddress + " (" + eventAddressName + ")").attr("class", "is-size-5"));
-        // newCardContent.append($("<p>").html("<strong>Price: </strong>" + eventPriceMin + " - " + eventPriceMax + " " + eventCurrencyType).attr("class", "is-size-5"));
+        newCardContent2.append($("<li>").html("<strong>Date: </strong>" + eventStartDate).attr("class", "is-size-5"));
+        newCardContent2.append($("<li>").html("<strong>Time: </strong>" + eventStartTime).attr("class", "is-size-5"));
+        newCardContent2.append($("<li>").html("<strong>Location: </strong>" + eventAddress + " (" + eventAddressName + ")").attr("class", "is-size-5"));
+        // newCardContent.append($("<li>").html("<strong>Price: </strong>" + eventPriceMin + " - " + eventPriceMax + " " + eventCurrencyType).attr("class", "is-size-5"));
 
         newCardFooter.append($("<a>").html("<strong>Ticket Links</strong>").attr({
             "href": eventTicketURL,
@@ -94,4 +96,4 @@ async function getEventInfo(city) {
 
 }
 
-getEventInfo("orlando")
+getEventInfo("chicago")
