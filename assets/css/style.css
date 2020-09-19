@@ -122,3 +122,8 @@
   .card-content{
       padding: 0;
   }
+
+  .level-left {
+      align-items: flex-start;
+      justify-content: space-evenly;
+  }
