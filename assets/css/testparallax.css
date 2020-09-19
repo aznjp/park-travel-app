@@ -45,8 +45,8 @@
     height: 5px;
   }
   
-  #parallax-1 {
-    background: url(https://source.unsplash.com/featured/?nature);
+  #weather {
+    background: url(https://source.unsplash.com/featured/?weather);
     background-attachment: fixed;
     background-position: center;
     background-repeat: no-repeat;
@@ -54,12 +54,12 @@
     border-top: 10px solid coral;
   }
   
-  #parallax-1 hr {
+  #weather hr {
     background: coral;
   }
   
-  #parallax-2 {
-    background: url(https://source.unsplash.com/featured/?computers);
+  #events {
+    background: url(https://source.unsplash.com/featured/?event);
     background-attachment: fixed;
     background-position: center;
     background-repeat: no-repeat;
@@ -67,12 +67,12 @@
     border-top: 10px solid yellow;
   }
   
-  #parallax-2 hr {
+  #events hr {
     background: yellow;
   }
   
-  #parallax-3 {
-    background: url(https://source.unsplash.com/featured/?city);
+  #lodging {
+    background: url(https://source.unsplash.com/featured/?lodging);
     background-attachment: fixed;
     background-position: center;
     background-repeat: no-repeat;
@@ -80,7 +80,7 @@
     border-top: 10px solid hotpink;
   }
   
-  #parallax-3 hr {
+  #lodging hr {
     background: hotpink;
   }
   
