@@ -3,35 +3,25 @@ $(function () {
   var locaton = getLocation();
 });
 var mainCard = $("#weatherRow");
-var searchHistory = [];
+var destionationDetails = [];
 
 var destinationCity;
 var departureDate;
 var arrivalDate;
 
-var getItems = function () {
-  var storedCities = JSON.parse(localStorage.getItem("searchHistory"));
-  if (storedCities !== null) {
-    searchHistory = storedCities;
-    for (var i = 0; i < searchHistory.length; i++) {
-      if (i == 8) {
-        break;
-      }
-      //  creates links/buttons https://getbootstrap.com/docs/4.0/components/list-group/
-      cityListButton = $("<a>").attr({
-        class: "list-group-item list-group-item-action",
-        href: "#",
-        "data-btn-num": i,
-      });
-      // appends history as a button below the search field
-      cityListButton.text(searchHistory[i]);
-      $(".list-group").append(cityListButton);
-    }
+var getTravelDetails = function () {
+  var storedTravelDetails = JSON.parse(
+    localStorage.getItem("storedDestinationDetails")
+  );
+  if (storedTravelDetails !== null) {
+    destionationDetails = storedTravelDetails;
+    $("#modalCity").val(destionationDetails[0]);
+    $("#modalArrivalDt").val(destionationDetails[1]);
+    $("#modalDepartureDt").val(destionationDetails[2]);
   }
 };
 
 function getData(city) {
-  var isError = false;
   mainCard.empty();
   $("#weeklyForecast").empty();
   if (!city) {
@@ -53,10 +43,6 @@ function getData(city) {
         getLocation();
         return;
       }
-      if (!isError) {
-        saveNewCity(city);
-      }
-
       var newCurrentWeatherCard = $("<div>").attr("class", "card mr-4");
 
       mainCard.append(newCurrentWeatherCard);
@@ -178,23 +164,12 @@ function getData(city) {
     });
 }
 
-/* Save City Name to LocalStorage */
-var saveNewCity = function (city) {
-  var inArray = searchHistory.includes(city);
-  if (!inArray && city !== "") {
-    searchHistory.push(city);
-    localStorage.setItem("searchHistory", JSON.stringify(searchHistory));
-    var cityListButton = $("<a>").attr({
-      class: "list-group-item list-group-item-action",
-      href: "#",
-      "data-btn-num": searchHistory.length,
-    });
-    cityListButton.text(city);
-    $(".list-group").append(cityListButton);
-  }
+/* Save Travel Details to LocalStorage */
+var saveTravelDetails = function(){
+    localStorage.setItem("storedDestinationDetails", JSON.stringify(destionationDetails));
 };
 
-getItems();
+
 
 function getLocation() {
   if (navigator.geolocation) {
@@ -212,43 +187,38 @@ function showPosition(position) {
     .then(function (response) {
       getData(response.city);
       $("#city").val(response.city);
-      saveNewCity(response.city);
+      /* saveNewCity(response.city); */
     });
 }
 
-var closeModals = function(){
-    $("html").removeClass("is-clipped");
-    $("#modal").removeClass("is-active");
-    $("#modal-weather").removeClass("is-active");
+var closeModals = function () {
+  $("html").removeClass("is-clipped");
+  $("#modal").removeClass("is-active");
+  $("#modal-weather").removeClass("is-active");
 };
 
 $(".modal-button").click(function () {
   var target = $(this).data("target");
   $("html").addClass("is-clipped");
   $(target).addClass("is-active");
+  getTravelDetails();
 });
 
 $(".delete").click(function () {
-    closeModals();
+  closeModals();
 });
 
-$(".btn-cancel").on("click",function(){
-    closeModals();
+$(".btn-cancel").on("click", function () {
+  closeModals();
 });
 
-$("#submit").on("click",function(){
-    console.log("SUBMIT");
-    destinationCity = $("#modalCity").val().trim();
-    arrivalDate = $("#modalArrivalDt").val().trim();
-    departureDate = $("#modalDepartureDt").val().trim();
-    closeModals();
-    getData(destinationCity);
+$("#submit").on("click", function () {
+  console.log("SUBMIT");
+  destinationCity = $("#modalCity").val().trim();
+  arrivalDate = $("#modalArrivalDt").val().trim();
+  departureDate = $("#modalDepartureDt").val().trim();
+  destionationDetails = [destinationCity,arrivalDate,departureDate];
+  saveTravelDetails();
+  closeModals();
+  getData(destinationCity);
 });
-
-$("#weather-submit").on("click",function(){
-    destinationCity = $("#modalweatherCity").val().trim();
-    closeModals();
-
-    getData(destinationCity);
-});
-
