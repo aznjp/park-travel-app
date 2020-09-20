@@ -216,6 +216,11 @@ function showPosition(position) {
     });
 }
 
+var closeModals = function(){
+    $("html").removeClass("is-clipped");
+    $("#modal").removeClass("is-active");
+    $("#modal-weather").removeClass("is-active");
+};
 
 $(".modal-button").click(function () {
   var target = $(this).data("target");
@@ -224,8 +229,11 @@ $(".modal-button").click(function () {
 });
 
 $(".delete").click(function () {
-  $("html").removeClass("is-clipped");
-  $("#modal").removeClass("is-active");
+    closeModals();
+});
+
+$(".btn-cancel").on("click",function(){
+    closeModals();
 });
 
 $("#submit").on("click",function(){
@@ -233,11 +241,14 @@ $("#submit").on("click",function(){
     destinationCity = $("#modalCity").val().trim();
     arrivalDate = $("#modalArrivalDt").val().trim();
     departureDate = $("#modalDepartureDt").val().trim();
-    console.log("city: " + destinationCity);
-    console.log("arrive Date: "  + arrivalDate);
-    console.log("departdate: " + departureDate);
-    $("html").removeClass("is-clipped");
-    $("#modal").removeClass("is-active");
+    closeModals();
+    getData(destinationCity);
+});
+
+$("#weather-submit").on("click",function(){
+    destinationCity = $("#modalweatherCity").val().trim();
+    closeModals();
+
     getData(destinationCity);
 });
 

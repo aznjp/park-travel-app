@@ -1,6 +1,7 @@
 :root {
     --weaterh-card-color: royalblue;
     --current-weather-bg: lightgrey;
+    --placeholder-text: grey;
     --bg-color: black;
     --form-label: #000;
     --light-text: #ffffff;
@@ -114,7 +115,7 @@
   }
   
   input::placeholder {
-    color: black !important;
+    color: var(--placeholder-text) !important;
   }
 
 
