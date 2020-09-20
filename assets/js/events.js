@@ -6,11 +6,9 @@ async function getEventInfo(city) {
     var response = await fetch(eventURL)
 
     var data = await response.json()
-    for (let index = 0; index < 3; index++) {
+    for (let index = 0; index < 4; index++) {
 
         var eventName = data._embedded.events[index].name
-        var eventNameLength = 100
-        var trimmedEventName = eventName.substring(0, eventNameLength)
 
         var eventType = data._embedded.events[index].classifications[0].segment.name
             // This is for the type of entertainment they want (Music, Sports, etc...)
@@ -21,7 +19,7 @@ async function getEventInfo(city) {
 
         var newCard = $("<div>").attr(
             "class",
-            "card column is-one-third-fullhd is-one-tablet is-rounded box mt-6 mb-0 my-4 has-text-centered is-desktop "
+            "card column is-one-fourth is-one-tablet is-rounded box mt-6 mb-0 my-4 has-text-centered is-desktop "
         );
         $("#eventList").append(newCard);
 
@@ -35,7 +33,7 @@ async function getEventInfo(city) {
             "id": "card1"
         });
         var newCardContentImg = $("<figure>").attr({
-            "class": "card-content",
+            "class": "card-content image is-4by3",
             "id": "cardimg"
         });
         var newCardContent2 = $("<div>").attr({
@@ -54,7 +52,7 @@ async function getEventInfo(city) {
         $(newCard).append(newCardFooter);
 
 
-        newCardHeader.append($("<h2>").html("<strong>" + trimmedEventName + "</strong>").attr("class", "is-size-2"));
+        newCardHeader.append($("<h2>").html("<strong>" + eventName + "</strong>").attr("class", "is-size-2"));
         newCardContent1.append($("<h3>").html("<strong> Activity: </strong>" + eventType).attr("class", "is-size-3"));
         newCardContent1.append($("<h4>").html("<strong> Genre: </strong>" + eventGenre).attr("class", "is-size-3"));
 
@@ -64,7 +62,7 @@ async function getEventInfo(city) {
             if (imageItemRatio === "4_3") {
                 console.log(imageItemRatio)
                 var eventImage = data._embedded.events[index].images[j].url
-                newCardContentImg.append($("<img>").attr("src", eventImage).attr("class", "image-is-4by3"));
+                newCardContentImg.append($("<img>").attr("src", eventImage));
             }
         }
 
@@ -99,4 +97,4 @@ async function getEventInfo(city) {
 
 }
 
-getEventInfo("chicago")
+getEventInfo("orlando")
