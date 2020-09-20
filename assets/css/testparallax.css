@@ -100,6 +100,7 @@ input::placeholder {
 
 #eventList {
     display: flex;
+    flex-wrap: wrap;
 }
 
 .card-footer {
@@ -109,19 +110,7 @@ input::placeholder {
     border-top: groove;
 }
 
-#card1 {
-    height: 120px;
-}
-
-#cardimg {
-    height: 300px;
-}
-
-#card2 {
-    height: 150px;
-}
-
 .card-header {
-    height: 150px;
+    height: 120px;
     overflow: hidden;
 }
