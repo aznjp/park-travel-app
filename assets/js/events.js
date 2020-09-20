@@ -6,7 +6,7 @@ async function getEventInfo(city) {
     var response = await fetch(eventURL)
 
     var data = await response.json()
-    for (let index = 0; index < 5; index++) {
+    for (let index = 0; index < 3; index++) {
 
         var eventName = data._embedded.events[index].name
         var eventNameLength = 100
@@ -21,7 +21,7 @@ async function getEventInfo(city) {
 
         var newCard = $("<div>").attr(
             "class",
-            "card column is-one-fifth mt-6 "
+            "card column is-one-third-fullhd is-one-tablet is-rounded box mt-6 mb-0 my-4 has-text-centered is-desktop "
         );
         $("#eventList").append(newCard);
 
@@ -34,7 +34,7 @@ async function getEventInfo(city) {
             "class": "card-content",
             "id": "card1"
         });
-        var newCardContentImg = $("<div>").attr({
+        var newCardContentImg = $("<figure>").attr({
             "class": "card-content",
             "id": "cardimg"
         });
@@ -54,9 +54,9 @@ async function getEventInfo(city) {
         $(newCard).append(newCardFooter);
 
 
-        newCardHeader.append($("<p>").html(trimmedEventName).attr("class", "is-size-1"));
-        newCardContent1.append($("<p>").html("Activity: " + eventType).attr("class", "is-size-2"));
-        newCardContent1.append($("<p>").html("Genre: " + eventGenre).attr("class", "is-size-3"));
+        newCardHeader.append($("<h2>").html("<strong>" + trimmedEventName + "</strong>").attr("class", "is-size-2"));
+        newCardContent1.append($("<h3>").html("<strong> Activity: </strong>" + eventType).attr("class", "is-size-3"));
+        newCardContent1.append($("<h4>").html("<strong> Genre: </strong>" + eventGenre).attr("class", "is-size-3"));
 
         for (let j = 0; j < 10; j++) {
             // const element = array[index];
@@ -64,7 +64,7 @@ async function getEventInfo(city) {
             if (imageItemRatio === "4_3") {
                 console.log(imageItemRatio)
                 var eventImage = data._embedded.events[index].images[j].url
-                newCardContentImg.append($("<img>").attr("src", eventImage));
+                newCardContentImg.append($("<img>").attr("src", eventImage).attr("class", "image-is-4by3"));
             }
         }
 
@@ -72,6 +72,8 @@ async function getEventInfo(city) {
         var eventStartTime = data._embedded.events[index].dates.start.localTime
 
         var eventAddress = data._embedded.events[index]._embedded.venues[0].address.line1
+        var eventCity = data._embedded.events[index]._embedded.venues[0].city.name
+        var eventState = data._embedded.events[index]._embedded.venues[0].state.stateCode
         var eventAddressName = data._embedded.events[index]._embedded.venues[0].name
 
         // var eventCurrencyType = data._embedded.events[index].priceRanges[0].currency
@@ -81,9 +83,10 @@ async function getEventInfo(city) {
         var eventTicketURL = data._embedded.events[index].url
 
 
-        newCardContent2.append($("<li>").html("<strong>Date: </strong>" + eventStartDate).attr("class", "is-size-5"));
-        newCardContent2.append($("<li>").html("<strong>Time: </strong>" + eventStartTime).attr("class", "is-size-5"));
-        newCardContent2.append($("<li>").html("<strong>Location: </strong>" + eventAddress + " (" + eventAddressName + ")").attr("class", "is-size-5"));
+        newCardContent2.append($("<p>").html("<strong>Date: </strong>" + eventStartDate).attr("class", "is-size-6"));
+        newCardContent2.append($("<p>").html("<strong>Time: </strong>" + eventStartTime).attr("class", "is-size-6"));
+        newCardContent2.append($("<p>").html("<strong>Location: </strong>" + eventAddress + "</br> " + eventCity + ", " + eventState).attr("class", "is-size-6"));
+        newCardContent2.append($("<p>").html("<strong>Venue Name: </strong>" + eventAddressName).attr("class", "is-size-6"));
         // newCardContent.append($("<li>").html("<strong>Price: </strong>" + eventPriceMin + " - " + eventPriceMax + " " + eventCurrencyType).attr("class", "is-size-5"));
 
         newCardFooter.append($("<a>").html("<strong>Ticket Links</strong>").attr({
