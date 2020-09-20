@@ -2,6 +2,7 @@
     --weaterh-card-color: royalblue;
     --current-weather-bg: lightgrey;
     --bg-color: black;
+    --form-label: #000;
     --light-text: #ffffff;
   }
 
@@ -99,15 +100,21 @@
   .label {
     color: white;
   }
+  .form-bg {
+      color:var(--current-weather-bg);
+  }
+  .form-label {
+      color: var(--form-label);
+  }
   
   input {
     background: transparent !important;
     border: 1px solid turquoise !important;
-    color: white !important;
+    color: black !important;
   }
   
   input::placeholder {
-    color: white !important;
+    color: black !important;
   }
 
 
