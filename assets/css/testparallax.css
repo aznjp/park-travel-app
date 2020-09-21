@@ -103,6 +103,23 @@ input::placeholder {
     flex-wrap: wrap;
 }
 
+#eventCard {
+    background-color: lightblue;
+    transition: 0.3s;
+}
+
+#eventCard:hover {
+    background-color: cornflowerblue;
+}
+
+#eventCardText {
+    transition: 0.3s;
+}
+
+#eventCardText:hover {
+    color: white;
+}
+
 .card-header {
     height: 150px;
     overflow: hidden;

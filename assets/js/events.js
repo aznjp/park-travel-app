@@ -17,10 +17,10 @@ async function getEventInfo(city) {
 
         console.log(eventName, eventType, eventGenre)
 
-        var newCard = $("<div>").attr(
-            "class",
-            "card column is-one-third is-full-mobile is-half-desktop is-rounded box mt-6 mb-0 my-4 has-text-centered"
-        );
+        var newCard = $("<div>").attr({
+            "class": "card column is-one-third is-full-mobile is-half-desktop is-rounded box mt-6 mb-0 my-4 has-text-centered",
+            "id": "eventCard"
+        });
         $("#eventList").append(newCard);
 
 
@@ -52,9 +52,9 @@ async function getEventInfo(city) {
         $(newCard).append(newCardFooter);
 
 
-        newCardHeader.append($("<h2>").html("<strong>" + eventName + "</strong>").attr("class", "is-size-3-desktop is-size-4"));
-        newCardContent1.append($("<h3>").html("<strong> Activity: </strong>" + eventType).attr("class", "is-size-3-desktop is-size-5"));
-        newCardContent1.append($("<h4>").html("<strong> Genre: </strong>" + eventGenre).attr("class", "is-size-3-desktop is-size-5"));
+        newCardHeader.append($("<h2>").html("<strong>" + eventName + "</strong>").attr({ "class": "is-size-3-desktop is-size-4", "id": "eventCardText" }));
+        newCardContent1.append($("<h3>").html("<strong> Activity: </strong>" + eventType).attr({ "class": "is-size-3-desktop is-size-5", "id": "eventCardText" }));
+        newCardContent1.append($("<h4>").html("<strong> Genre: </strong>" + eventGenre).attr({ "class": "is-size-3-desktop is-size-5", "id": "eventCardText" }));
 
         for (let j = 0; j < 10; j++) {
             // const element = array[index];
@@ -84,10 +84,10 @@ async function getEventInfo(city) {
         var eventTicketURL = data._embedded.events[index].url
 
 
-        newCardContent2.append($("<p>").html("<strong>Date: </strong>" + eventStartDateFormat).attr("class", "is-size-6"));
-        newCardContent2.append($("<p>").html("<strong>Time: </strong>" + eventStartTimeFormat).attr("class", "is-size-6"));
-        newCardContent2.append($("<p>").html("<strong>Location: </strong>" + eventAddress + "</br> " + eventCity + ", " + eventState).attr("class", "is-size-6"));
-        newCardContent2.append($("<p>").html("<strong>Venue Name: </strong>" + eventAddressName).attr("class", "is-size-6"));
+        newCardContent2.append($("<p>").html("<strong>Date: </strong>" + eventStartDateFormat).attr({ "class": "is-size-6", "id": "eventCardText" }));
+        newCardContent2.append($("<p>").html("<strong>Time: </strong>" + eventStartTimeFormat).attr({ "class": "is-size-6", "id": "eventCardText" }));
+        newCardContent2.append($("<p>").html("<strong>Location: </strong>" + eventAddress + "</br> " + eventCity + ", " + eventState).attr({ "class": "is-size-6", "id": "eventCardText" }));
+        newCardContent2.append($("<p>").html("<strong>Venue Name: </strong>" + eventAddressName).attr({ "class": "is-size-6", "id": "eventCardText" }));
         // newCardContent.append($("<li>").html("<strong>Price: </strong>" + eventPriceMin + " - " + eventPriceMax + " " + eventCurrencyType).attr("class", "is-size-5"));
 
         newCardFooter.append($("<a>").html("<strong>Ticket Links</strong>").attr({
