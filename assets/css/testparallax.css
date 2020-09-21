@@ -160,6 +160,11 @@ input::placeholder {
     color: white;
 }
 
+#card2 {
+    max-height: 140px;
+    overflow: hidden;
+}
+
 .card-header {
     height: 150px;
     overflow: hidden;
@@ -168,8 +173,12 @@ input::placeholder {
 }
 
 .card-footer {
-    height: 100px;
+    max-height: 80px;
     justify-content: center;
     align-items: center;
     border-top: groove;
+}
+
+.hide {
+    display: none;
 }

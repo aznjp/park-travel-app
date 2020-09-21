@@ -168,16 +168,25 @@ function getData(city) {
 
 
 var ticketMasterKey = "	i0lp5oGx0Qea9JsArRlgvsGMyB83Ovgp"
+var data;
+var pageNumber = 1;
 
 async function getEventInfo(city) {
-    $("#eventList").empty();
 
     var eventURL = "https://app.ticketmaster.com/discovery/v2/events.json?city=" + city + "&apikey=" + ticketMasterKey;
 
     var response = await fetch(eventURL)
 
-    var data = await response.json()
-    for (let index = 0; index < 6; index++) {
+    data = await response.json()
+    generateEventCards(data, 0)
+    console.log(data)
+}
+
+function generateEventCards(data, startingIndex) {
+    $("#eventList").empty();
+    $('#navbar').removeClass("hide")
+    let endingIndex = Math.min(startingIndex + 6, data._embedded.events.length)
+    for (let index = startingIndex; index < endingIndex; index++) {
 
         var eventName = data._embedded.events[index].name
 
@@ -192,8 +201,6 @@ async function getEventInfo(city) {
             "class": "card column is-one-third is-full-mobile is-half-desktop is-rounded box mt-6 mb-0 my-4 has-text-centered",
             "id": "eventCard"
         });
-        $("#eventList").append(newCard);
-
 
         var newCardHeader = $("<div>").attr(
             "class",
@@ -208,7 +215,7 @@ async function getEventInfo(city) {
             "id": "cardimg"
         });
         var newCardContent2 = $("<div>").attr({
-            "class": "card-content",
+            "class": "card-content mb-3",
             "id": "card2"
         });
         var newCardFooter = $("<div>").attr(
@@ -248,9 +255,12 @@ async function getEventInfo(city) {
         var eventState = data._embedded.events[index]._embedded.venues[0].state.stateCode
         var eventAddressName = data._embedded.events[index]._embedded.venues[0].name
 
-        // var eventCurrencyType = data._embedded.events[index].priceRanges[0].currency
-        // var eventPriceMin = data._embedded.events[index].priceRanges[0].min
-        // var eventPriceMax = data._embedded.events[index].priceRanges[0].max
+
+        if (data._embedded.events[index].priceRanges) {
+            var eventCurrencyType = data._embedded.events[index].priceRanges[0].currency
+            var eventPriceMin = data._embedded.events[index].priceRanges[0].min
+            var eventPriceMax = data._embedded.events[index].priceRanges[0].max
+        }
 
         var eventTicketURL = data._embedded.events[index].url
 
@@ -259,19 +269,66 @@ async function getEventInfo(city) {
         newCardContent2.append($("<p>").html("<strong>Time: </strong>" + eventStartTimeFormat).attr({ "class": "is-size-6", "id": "eventCardText" }));
         newCardContent2.append($("<p>").html("<strong>Location: </strong>" + eventAddress + "</br> " + eventCity + ", " + eventState).attr({ "class": "is-size-6", "id": "eventCardText" }));
         newCardContent2.append($("<p>").html("<strong>Venue Name: </strong>" + eventAddressName).attr({ "class": "is-size-6", "id": "eventCardText" }));
-        // newCardContent.append($("<li>").html("<strong>Price: </strong>" + eventPriceMin + " - " + eventPriceMax + " " + eventCurrencyType).attr({ "class": "is-size-6", "id": "eventCardText" }));
+
+        if (eventPriceMin && eventPriceMin && eventCurrencyType) {
+            newCardContent2.append($("<p>").html("<strong>Price: </strong>" + eventPriceMin + " - " + eventPriceMax + " " + eventCurrencyType).attr({ "class": "is-size-6", "id": "eventCardText" }));
+        }
 
         newCardFooter.append($("<a>").html("<strong>Ticket Links</strong>").attr({
             "href": eventTicketURL,
             "class": "is-size-4"
         }));
 
+        $("#eventList").append(newCard);
     }
-    console.log(data)
-
 }
 
-// getEventInfo("orlando")
+function selectEventPage() {
+
+    pageNumber = $(this).data("page")
+    pageNumber = parseInt(pageNumber)
+
+    var startingIndex = pageNumber * 6 - 6
+    generateEventCards(data, startingIndex)
+}
+
+function previousPage() {
+    if (pageNumber === 1) {
+        return
+    } else {
+        pageNumber--
+        var startingIndex = pageNumber * 6 - 6
+        generateEventCards(data, startingIndex)
+    }
+}
+
+function nextPage() {
+    var endingPageNumber = Math.floor(data._embedded.events.length / 6)
+    if (pageNumber === endingPageNumber) {
+        return
+    } else {
+        pageNumber++
+        var startingIndex = pageNumber * 6 - 6
+        generateEventCards(data, startingIndex)
+    }
+}
+
+
+$(".pagination-link").on("click", selectEventPage)
+$(".pagination-previous").on("click", previousPage)
+$(".pagination-next").on("click", nextPage)
+
+
+
+
+
+
+
+
+
+
+
+
 
 /* Save Travel Details to LocalStorage */
 var saveTravelDetails = function() {
