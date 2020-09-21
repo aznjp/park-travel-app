@@ -389,4 +389,5 @@ $("#submit").on("click", function() {
     closeModals();
     getData(destinationCity);
     getEventInfo(destinationCity)
+    pageNumber = 1
 });
