@@ -1,0 +1,137 @@
+:root {
+    --weaterh-card-color: royalblue;
+    --current-weather-bg: lightgrey;
+    --placeholder-text: grey;
+    --bg-color: black;
+    --form-label: #000;
+    --light-text: #ffffff;
+  }
+
+.va {
+    display: flex;
+    align-items: center;
+  }
+  
+  .hero,
+  .cta {
+    background: url(data:image/svg+xml;charset=utf8,%3Csvg%20viewBox%3D%220%200%20512%20512%22%20width%3D%22512%22%20height%3D%22512%22%20version%3D%221.1%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cfilter%20id%3D%22noise%22%3E%3CfeTurbulence%20type%3D%22fractalNoise%22%20baseFrequency%3D%220.875%22%20result%3D%22noise%22%20%2F%3E%3CfeColorMatrix%20type%3D%22matrix%22%20values%3D%220%200%200%200%200%200%200%200%200%200%200%200%200%200%200%200%200%200%200.4296875%200%22%20%2F%3E%3C%2Ffilter%3E%3Crect%20filter%3D%22url%28%23noise%29%22%20x%3D%220%22%20y%3D%220%22%20width%3D%22512%22%20height%3D%22512%22%20fill%3D%22transparent%22%20opacity%3D%221%22%20%2F%3E%3C%2Fsvg%3E), linear-gradient(52deg, #42475C 0%, #20222E 71%);
+  }
+  
+  .cta {
+    height: 500px;
+    border-top: 10px solid turquoise;
+  }
+  
+  footer {
+    color: white;
+    background: rgb(14, 14, 14) !important;
+  }
+  
+  footer strong {
+    color: turquoise;
+  }
+  
+  footer a {
+    color: turquoise;
+  }
+  
+  .title {
+    color: white;
+    font-weight: 800;
+    font-size: 4rem;
+    font-family: 'Nunito Sans', sans-serif;
+    text-shadow: 1px 1px 1px #000, 3px 3px 5px rgb(0, 0, 3);
+  }
+  
+  .subtitle {
+    color: white;
+    font-size: 1.2rem;
+    text-shadow: 1px 1px 1px #000, 3px 3px 5px rgb(0, 0, 3);
+  }
+  
+  hr.content-divider {
+    max-width: 75px;
+    height: 5px;
+  }
+
+  hr.card-content-divider {
+      max-width: 80%;
+      height: 5px;
+  }
+  
+  #weather {
+    background: url(https://source.unsplash.com/featured/?weather);
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    border-top: 10px solid coral;
+  }
+  
+  #weather hr {
+    background: coral;
+  }
+  
+  #events {
+    background: url(https://source.unsplash.com/featured/?event);
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    border-top: 10px solid yellow;
+  }
+  
+  #events hr {
+    background: yellow;
+  }
+  
+  #lodging {
+    background: url(https://source.unsplash.com/featured/?lodging);
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    border-top: 10px solid hotpink;
+  }
+  
+  #lodging hr {
+    background: hotpink;
+  }
+  
+  .label {
+    color: white;
+  }
+  .form-bg {
+      color:var(--current-weather-bg);
+  }
+  .form-label {
+      color: var(--form-label);
+  }
+  
+  input {
+    background: transparent !important;
+    border: 1px solid turquoise !important;
+    color: black !important;
+  }
+  
+  input::placeholder {
+    color: var(--placeholder-text) !important;
+  }
+
+
+.fiveDay {
+    background-color: var(--weaterh-card-color);
+  }
+
+  .card{
+    background: var(--current-weather-bg);
+    /* width: 25%; */
+  }
+  .card-content{
+      padding: 0;
+  }
+
+  .level-left {
+      align-items: flex-start;
+      justify-content: space-evenly;
+  }
