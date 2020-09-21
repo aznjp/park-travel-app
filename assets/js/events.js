@@ -259,7 +259,7 @@ async function getEventInfo(city) {
         newCardContent2.append($("<p>").html("<strong>Time: </strong>" + eventStartTimeFormat).attr({ "class": "is-size-6", "id": "eventCardText" }));
         newCardContent2.append($("<p>").html("<strong>Location: </strong>" + eventAddress + "</br> " + eventCity + ", " + eventState).attr({ "class": "is-size-6", "id": "eventCardText" }));
         newCardContent2.append($("<p>").html("<strong>Venue Name: </strong>" + eventAddressName).attr({ "class": "is-size-6", "id": "eventCardText" }));
-        // newCardContent.append($("<li>").html("<strong>Price: </strong>" + eventPriceMin + " - " + eventPriceMax + " " + eventCurrencyType).attr("class", "is-size-5"));
+        // newCardContent.append($("<li>").html("<strong>Price: </strong>" + eventPriceMin + " - " + eventPriceMax + " " + eventCurrencyType).attr({ "class": "is-size-6", "id": "eventCardText" }));
 
         newCardFooter.append($("<a>").html("<strong>Ticket Links</strong>").attr({
             "href": eventTicketURL,

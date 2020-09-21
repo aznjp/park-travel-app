@@ -1,3 +1,11 @@
+:root {
+    --weather-card-color: royalblue;
+    --current-weather-bg: lightgrey;
+    --bg-color: black;
+    --form-label: #000;
+    --light-text: #ffffff;
+}
+
 .va {
     display: flex;
     align-items: center;
@@ -45,7 +53,7 @@ hr.content-divider {
     height: 5px;
 }
 
-#parallax-1 {
+#weather {
     background: url(https://source.unsplash.com/featured/?nature);
     background-attachment: fixed;
     background-position: center;
@@ -54,11 +62,11 @@ hr.content-divider {
     border-top: 10px solid coral;
 }
 
-#parallax-1 hr {
+#weather hr {
     background: coral;
 }
 
-#parallax-2 {
+#events {
     background: url(https://source.unsplash.com/featured/?events);
     background-attachment: fixed;
     background-position: center;
@@ -67,11 +75,11 @@ hr.content-divider {
     border-top: 10px solid yellow;
 }
 
-#parallax-2 hr {
+#events hr {
     background: yellow;
 }
 
-#parallax-3 {
+#lodging {
     background: url(https://source.unsplash.com/featured/?city);
     background-attachment: fixed;
     background-position: center;
@@ -80,7 +88,7 @@ hr.content-divider {
     border-top: 10px solid hotpink;
 }
 
-#parallax-3 hr {
+#lodging hr {
     background: hotpink;
 }
 
@@ -88,15 +96,47 @@ hr.content-divider {
     color: white;
 }
 
+.form-bg {
+    color: var(--current-weather-bg);
+}
+
+.form-label {
+    color: var(--form-label);
+}
+
 input {
     background: transparent !important;
     border: 1px solid turquoise !important;
-    color: white !important;
+    color: black !important;
 }
 
 input::placeholder {
-    color: white !important;
+    color: grey !important;
 }
+
+
+/* Weather Specific CSS */
+
+.fiveDay {
+    background-color: var(--weather-card-color);
+}
+
+.card {
+    background: var(--current-weather-bg);
+    /* width: 25%; */
+}
+
+.card-content {
+    padding: 0;
+}
+
+.level-left {
+    align-items: flex-start;
+    justify-content: space-evenly;
+}
+
+
+/* Events Specific CSS */
 
 #eventList {
     display: flex;
