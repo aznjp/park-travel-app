@@ -230,12 +230,11 @@ function generateEventCards(data, startingIndex) {
         $(newCard).append(newCardFooter);
 
 
-        newCardHeader.append($("<h2>").html("<strong>" + eventName + "</strong>").attr({ "class": "is-size-3-desktop is-size-4", "id": "eventCardText" }));
-        newCardContent1.append($("<h3>").html("<strong> Activity: </strong>" + eventType).attr({ "class": "is-size-3-desktop is-size-5", "id": "eventCardText" }));
-        newCardContent1.append($("<h4>").html("<strong> Genre: </strong>" + eventGenre).attr({ "class": "is-size-3-desktop is-size-5", "id": "eventCardText" }));
+        newCardHeader.append($("<h2>").html("<strong>" + eventName + "</strong>").attr("class", "is-size-3-desktop is-size-4"));
+        newCardContent1.append($("<h3>").html("<strong> Activity: </strong>" + eventType).attr("class", "is-siz3-desktop is-size-5"));
+        newCardContent1.append($("<h4>").html("<strong> Genre: </strong>" + eventGenre).attr("class", "is-siz3-desktop is-size-5"));
 
         for (let j = 0; j < 10; j++) {
-            // const element = array[index];
             var imageItemRatio = data._embedded.events[index].images[j].ratio
             if (imageItemRatio === "3_2") {
                 console.log(imageItemRatio)
@@ -265,19 +264,20 @@ function generateEventCards(data, startingIndex) {
         var eventTicketURL = data._embedded.events[index].url
 
 
-        newCardContent2.append($("<p>").html("<strong>Date: </strong>" + eventStartDateFormat).attr({ "class": "is-size-6", "id": "eventCardText" }));
-        newCardContent2.append($("<p>").html("<strong>Time: </strong>" + eventStartTimeFormat).attr({ "class": "is-size-6", "id": "eventCardText" }));
-        newCardContent2.append($("<p>").html("<strong>Location: </strong>" + eventAddress + "</br> " + eventCity + ", " + eventState).attr({ "class": "is-size-6", "id": "eventCardText" }));
-        newCardContent2.append($("<p>").html("<strong>Venue Name: </strong>" + eventAddressName).attr({ "class": "is-size-6", "id": "eventCardText" }));
+        newCardContent2.append($("<p>").html("<strong>Date: </strong>" + eventStartDateFormat).attr("class", "is-size-6"));
+        newCardContent2.append($("<p>").html("<strong>Time: </strong>" + eventStartTimeFormat).attr("class", "is-size-6"));
+        newCardContent2.append($("<p>").html("<strong>Location: </strong>" + eventAddress + "</br> " + eventCity + ", " + eventState).attr("class", "is-size-6"));
+        newCardContent2.append($("<p>").html("<strong>Venue Name: </strong>" + eventAddressName).attr("class", "is-size-6"));
 
         if (eventPriceMin && eventPriceMin && eventCurrencyType) {
-            newCardContent2.append($("<p>").html("<strong>Price: </strong>" + eventPriceMin + " - " + eventPriceMax + " " + eventCurrencyType).attr({ "class": "is-size-6", "id": "eventCardText" }));
+            newCardContent2.append($("<p>").html("<strong>Price: </strong>" + eventPriceMin + " - " + eventPriceMax + " " + eventCurrencyType).attr("class", "is-size-6"));
         }
 
         newCardFooter.append($("<a>").html("<strong>Ticket Links</strong>").attr({
             "href": eventTicketURL,
             "class": "is-size-4"
         }));
+
 
         $("#eventList").append(newCard);
     }
@@ -317,17 +317,6 @@ function nextPage() {
 $(".pagination-link").on("click", selectEventPage)
 $(".pagination-previous").on("click", previousPage)
 $(".pagination-next").on("click", nextPage)
-
-
-
-
-
-
-
-
-
-
-
 
 
 /* Save Travel Details to LocalStorage */

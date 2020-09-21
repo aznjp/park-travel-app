@@ -150,13 +150,6 @@ input::placeholder {
 
 #eventCard:hover {
     background-color: cornflowerblue;
-}
-
-#eventCardText {
-    transition: 0.3s;
-}
-
-#eventCardText:hover {
     color: white;
 }
 
