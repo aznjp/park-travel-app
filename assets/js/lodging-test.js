@@ -1,23 +1,19 @@
-var hotelKey = 'pKHlLF8HDwpSmANti64bp9vjMXIOWXro'
 
-async function getHotelInfo(cityCode) {
-var Response = await fetch('https://test.api.amadeus.com/v2/shopping/hotel-offers?cityCode=' + cityCode + '&API_Key=' + hotelKey)
-var data =await Response.json()
-console.log(data)}
-getHotelInfo('LON')
+//date formatted year-month-day
+fetch('https://test.api.amadeus.com/v2/shopping/hotel-offers?cityCode=LON&checkinDate2020-10-10&checkOutDate=2020-10-13')
 
-$(document).ready(function() {
-    $( "#mySlider" ).slider({
-      range: true,
-      min: 10,
-      max: 999,
-      values: [ 200, 500 ],
-      slide: function( event, ui ) {
-     $( "#price" ).val( "$" + ui.values[ 0 ] + " - $" + ui.values[ 1 ] );
-     }
-  });
-      
-  $( "#price" ).val( "$" + $( "#mySlider" ).slider( "values", 0 ) +
-           " - $" + $( "#mySlider" ).slider( "values", 1 ) );
-      
-    });
+var Amadeus = require('amadeus');
+
+//token Authorization
+var amadeus = new Amadeus({
+  clientId: 'pKHlLF8HDwpSmANti64bp9vjMXIOWXro',
+  clientSecret: 'NIdV68vFUEXKAsj1'
+});
+// Get list of Hotels by city code
+amadeus.shopping.hotelOffers.get({
+  cityCode: 'PAR'
+}).then(function (response) {
+  console.log(response);
+}).catch(function (response) {
+  console.error(response);
+});
