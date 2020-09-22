@@ -1,7 +1,7 @@
 /* eslint-disable no-undef */
-$(function() {
-    var locaton = getLocation();
-});
+// $(function() {
+//     var locaton = getLocation();
+// });
 var mainCard = $("#weatherRow");
 var destionationDetails = [];
 
@@ -57,7 +57,7 @@ function getData(city) {
             var iconUrl = "http://openweathermap.org/img/w/" + wIcon + ".png";
             var cardHeader = $("<header>").attr("class", "card-header");
             var cityName = $("<p>")
-                .attr("class", "card-header-title")
+                .attr("class", "card-header-title is-capitalized")
                 .html(city + date);
             console.log(cityName);
             cityName.append($("<img>").attr("src", iconUrl));
@@ -176,18 +176,21 @@ var saveTravelDetails = function() {
 
 
 
-function getLocation() {
-    if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(showPosition);
-    } else {
-        console.log("Geolocation is not supported by this browser.");
-    }
-}
+// function getLocation() {
+//     if (navigator.geolocation) {
+//         navigator.geolocation.getCurrentPosition(showPosition);
+//     } else {
+//         console.log("Geolocation is not supported by this browser.");
+//     }
+// }
 
 
-async function getEventInfo(city) {
+async function getEventInfo(city, arrivalDate, departureDate) {
 
-    var eventURL = "https://app.ticketmaster.com/discovery/v2/events.json?city=" + city + "&apikey=" + ticketMasterKey;
+    var arrivalDateFormat = moment(arrivalDate).format();
+    var departureDateFormat = moment(departureDate).format();
+
+    var eventURL = "https://app.ticketmaster.com/discovery/v2/events.json?city=" + city + "&startDateTime=" + arrivalDateFormat + "&endDateTime=" + departureDateFormat + "&apikey=" + ticketMasterKey;
 
     var response = await fetch(eventURL)
 
@@ -297,6 +300,8 @@ function generateEventCards(data, startingIndex) {
     }
 }
 
+
+
 function selectEventPage() {
 
     pageNumber = $(this).data("page")
@@ -328,18 +333,18 @@ function nextPage() {
 }
 
 
-function showPosition(position) {
-    fetch("https://geolocation-db.com/json/697de680-a737-11ea-9820-af05f4014d91")
-        .then(function(response) {
-            return response.json();
-        })
-        .then(function(response) {
-            getData(response.city);
-            getEventInfo(response.city)
-            $("#city").val(response.city);
-            /* saveNewCity(response.city); */
-        });
-}
+// function showPosition(position) {
+//     fetch("https://geolocation-db.com/json/697de680-a737-11ea-9820-af05f4014d91")
+//         .then(function(response) {
+//             return response.json();
+//         })
+//         .then(function(response) {
+//             getData(response.city);
+//             getEventInfo(response.city)
+//             $("#city").val(response.city);
+//             /* saveNewCity(response.city); */
+//         });
+// }
 
 var closeModals = function() {
     $("html").removeClass("is-clipped");
@@ -371,7 +376,7 @@ $("#submit").on("click", function() {
     saveTravelDetails();
     closeModals();
     getData(destinationCity);
-    getEventInfo(destinationCity)
+    getEventInfo(destinationCity, arrivalDate, departureDate)
     pageNumber = 1
 });
 
@@ -379,3 +384,14 @@ $("#submit").on("click", function() {
 $(".pagination-link").on("click", selectEventPage)
 $(".pagination-previous").on("click", previousPage)
 $(".pagination-next").on("click", nextPage)
+
+window.addEventListener('load', (event) => {
+    console.log('page is fully loaded');
+    var storageInfo = JSON.parse(localStorage.getItem("storedDestinationDetails"))
+    console.log(storageInfo)
+    city = storageInfo[0]
+    arrivalDate = storageInfo[1]
+    departureDate = storageInfo[2]
+    getData(city)
+    getEventInfo(city, arrivalDate, departureDate)
+});
