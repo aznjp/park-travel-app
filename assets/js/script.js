@@ -1,7 +1,13 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-undef */
 $(function() {
-    var locaton = getLocation();
+    var localStorage = getTravelDetails();
+    if(!destionationDetails || destionationDetails.length == 0) {
+        var locaton = getLocation();
+    } else {
+        getData(destionationDetails[0]);
+        getEventInfo(destionationDetails[0]);
+    }
 });
 var mainCard = $("#weatherRow");
 var destionationDetails = [];
@@ -11,7 +17,7 @@ var departureDate;
 var arrivalDate;
 
 // Events Global Variables
-var ticketMasterKey = "	i0lp5oGx0Qea9JsArRlgvsGMyB83Ovgp";
+var ticketMasterKey = "i0lp5oGx0Qea9JsArRlgvsGMyB83Ovgp";
 var data;
 var pageNumber = 1;
 
@@ -24,6 +30,7 @@ var getTravelDetails = function() {
         $("#modalCity").val(destionationDetails[0]);
         $("#modalArrivalDt").val(destionationDetails[1]);
         $("#modalDepartureDt").val(destionationDetails[2]);
+        $("#navCity").text(destionationDetails[0]);
     }
 };
 
@@ -338,7 +345,7 @@ function showPosition(position) {
             getData(response.city);
             getEventInfo(response.city);
             $("#city").val(response.city);
-            /* saveNewCity(response.city); */
+            $("#navCity").text(response.city);
         });
 }
 
@@ -370,6 +377,7 @@ $("#submit").on("click", function() {
     departureDate = $("#modalDepartureDt").val().trim();
     destionationDetails = [destinationCity, arrivalDate, departureDate];
     saveTravelDetails();
+    $("#navCity").text(destinationCity);
     closeModals();
     getData(destinationCity);
     getEventInfo(destinationCity);

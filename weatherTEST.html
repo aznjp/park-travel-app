@@ -12,7 +12,22 @@
     <link rel="stylesheet" type="text/css" href="./assets/css/style.css">
   </head>
 
-  <body>
+  <body class="has-navbar-fixed-top">
+    <header>
+      <nav class="navbar is-fixed-top">
+        <div class="navbar-end">
+          <div class="navbar-item">
+            <h2>Searching</h2>
+          </div>
+          <div class="navbar-item">
+            <h2><p class="nav-label" id="navCity"></p></h2>
+          </div>
+          <div class="navbar-item">
+            <button class="button is-primary is-small modal-button" data-target="#modal" aria-haspopup="true">Select Travel Details&ensp;<i class="fad fa-chevron-right"></i></button>
+          </div>
+        </div>
+      </nav>
+    </header>
     <section class="hero is-medium">
       <div class="hero-body">
         <div class="container">
