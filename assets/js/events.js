@@ -1,13 +1,6 @@
-/* eslint-disable no-unused-vars */
 /* eslint-disable no-undef */
 $(function() {
-    var localStorage = getTravelDetails();
-    if(!destionationDetails || destionationDetails.length == 0) {
-        var locaton = getLocation();
-    } else {
-        getData(destionationDetails[0]);
-        getEventInfo(destionationDetails[0]);
-    }
+    var locaton = getLocation();
 });
 var mainCard = $("#weatherRow");
 var destionationDetails = [];
@@ -15,11 +8,6 @@ var destionationDetails = [];
 var destinationCity;
 var departureDate;
 var arrivalDate;
-
-// Events Global Variables
-var ticketMasterKey = "i0lp5oGx0Qea9JsArRlgvsGMyB83Ovgp";
-var data;
-var pageNumber = 1;
 
 var getTravelDetails = function() {
     var storedTravelDetails = JSON.parse(
@@ -30,7 +18,6 @@ var getTravelDetails = function() {
         $("#modalCity").val(destionationDetails[0]);
         $("#modalArrivalDt").val(destionationDetails[1]);
         $("#modalDepartureDt").val(destionationDetails[2]);
-        $("#navCity").text(destionationDetails[0]);
     }
 };
 
@@ -177,47 +164,38 @@ function getData(city) {
         });
 }
 
-/* Save Travel Details to LocalStorage */
-var saveTravelDetails = function() {
-    localStorage.setItem("storedDestinationDetails", JSON.stringify(destionationDetails));
-};
 
 
 
-function getLocation() {
-    if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(showPosition);
-    } else {
-        console.log("Geolocation is not supported by this browser.");
-    }
-}
-
+var ticketMasterKey = "	i0lp5oGx0Qea9JsArRlgvsGMyB83Ovgp"
+var data;
+var pageNumber = 1;
 
 async function getEventInfo(city) {
 
     var eventURL = "https://app.ticketmaster.com/discovery/v2/events.json?city=" + city + "&apikey=" + ticketMasterKey;
 
-    var response = await fetch(eventURL);
+    var response = await fetch(eventURL)
 
-    data = await response.json();
-    generateEventCards(data, 0);
-    console.log(data);
+    data = await response.json()
+    generateEventCards(data, 0)
+    console.log(data)
 }
 
 function generateEventCards(data, startingIndex) {
     $("#eventList").empty();
-    $('#navbar').removeClass("hide");
-    let endingIndex = Math.min(startingIndex + 6, data._embedded.events.length);
+    $('#navbar').removeClass("hide")
+    let endingIndex = Math.min(startingIndex + 6, data._embedded.events.length)
     for (let index = startingIndex; index < endingIndex; index++) {
 
-        var eventName = data._embedded.events[index].name;
+        var eventName = data._embedded.events[index].name
 
-        var eventType = data._embedded.events[index].classifications[0].segment.name;
+        var eventType = data._embedded.events[index].classifications[0].segment.name
             // This is for the type of entertainment they want (Music, Sports, etc...)
-        var eventGenre = data._embedded.events[index].classifications[0].genre.name;
+        var eventGenre = data._embedded.events[index].classifications[0].genre.name
             // This is the for the actual genre of said entertainment (Music: Pop, Rock, etc...)
 
-        console.log(eventName, eventType, eventGenre);
+        console.log(eventName, eventType, eventGenre)
 
         var newCard = $("<div>").attr({
             "class": "card column is-one-third is-full-mobile is-half-desktop is-rounded box mt-6 mb-0 my-4 has-text-centered",
@@ -257,33 +235,33 @@ function generateEventCards(data, startingIndex) {
         newCardContent1.append($("<h4>").html("<strong> Genre: </strong>" + eventGenre).attr("class", "is-siz3-desktop is-size-5"));
 
         for (let j = 0; j < 10; j++) {
-            var imageItemRatio = data._embedded.events[index].images[j].ratio;
+            var imageItemRatio = data._embedded.events[index].images[j].ratio
             if (imageItemRatio === "3_2") {
-                console.log(imageItemRatio);
-                var eventImage = data._embedded.events[index].images[j].url;
+                console.log(imageItemRatio)
+                var eventImage = data._embedded.events[index].images[j].url
                 newCardContentImg.append($("<img>").attr("src", eventImage));
-                break;
+                break
             }
         }
 
-        var eventStartDate = data._embedded.events[index].dates.start.localDate;
-        var eventStartDateFormat = moment(eventStartDate, 'YYYY-MM-DD').format('dddd, MMM Do YYYY');
-        var eventStartTime = data._embedded.events[index].dates.start.localTime;
-        var eventStartTimeFormat = moment(eventStartTime, 'HH:mm:ss').format('h:mm a');
+        var eventStartDate = data._embedded.events[index].dates.start.localDate
+        var eventStartDateFormat = moment(eventStartDate, 'YYYY-MM-DD').format('dddd, MMM Do YYYY')
+        var eventStartTime = data._embedded.events[index].dates.start.localTime
+        var eventStartTimeFormat = moment(eventStartTime, 'HH:mm:ss').format('h:mm a')
 
-        var eventAddress = data._embedded.events[index]._embedded.venues[0].address.line1;
-        var eventCity = data._embedded.events[index]._embedded.venues[0].city.name;
-        var eventState = data._embedded.events[index]._embedded.venues[0].state.stateCode;
-        var eventAddressName = data._embedded.events[index]._embedded.venues[0].name;
+        var eventAddress = data._embedded.events[index]._embedded.venues[0].address.line1
+        var eventCity = data._embedded.events[index]._embedded.venues[0].city.name
+        var eventState = data._embedded.events[index]._embedded.venues[0].state.stateCode
+        var eventAddressName = data._embedded.events[index]._embedded.venues[0].name
 
 
         if (data._embedded.events[index].priceRanges) {
-            var eventCurrencyType = data._embedded.events[index].priceRanges[0].currency;
-            var eventPriceMin = data._embedded.events[index].priceRanges[0].min;
-            var eventPriceMax = data._embedded.events[index].priceRanges[0].max;
+            var eventCurrencyType = data._embedded.events[index].priceRanges[0].currency
+            var eventPriceMin = data._embedded.events[index].priceRanges[0].min
+            var eventPriceMax = data._embedded.events[index].priceRanges[0].max
         }
 
-        var eventTicketURL = data._embedded.events[index].url;
+        var eventTicketURL = data._embedded.events[index].url
 
 
         newCardContent2.append($("<p>").html("<strong>Date: </strong>" + eventStartDateFormat).attr("class", "is-size-6"));
@@ -307,34 +285,54 @@ function generateEventCards(data, startingIndex) {
 
 function selectEventPage() {
 
-    pageNumber = $(this).data("page");
-    pageNumber = parseInt(pageNumber);
+    pageNumber = $(this).data("page")
+    pageNumber = parseInt(pageNumber)
 
-    var startingIndex = pageNumber * 6 - 6;
-    generateEventCards(data, startingIndex);
+    var startingIndex = pageNumber * 6 - 6
+    generateEventCards(data, startingIndex)
 }
 
 function previousPage() {
     if (pageNumber === 1) {
-        return;
+        return
     } else {
-        pageNumber--;
-        var startingIndex = pageNumber * 6 - 6;
-        generateEventCards(data, startingIndex);
+        pageNumber--
+        var startingIndex = pageNumber * 6 - 6
+        generateEventCards(data, startingIndex)
     }
 }
 
 function nextPage() {
-    var endingPageNumber = Math.floor(data._embedded.events.length / 6);
+    var endingPageNumber = Math.floor(data._embedded.events.length / 6)
     if (pageNumber === endingPageNumber) {
-        return;
+        return
     } else {
-        pageNumber++;
-        var startingIndex = pageNumber * 6 - 6;
-        generateEventCards(data, startingIndex);
+        pageNumber++
+        var startingIndex = pageNumber * 6 - 6
+        generateEventCards(data, startingIndex)
     }
 }
 
+
+$(".pagination-link").on("click", selectEventPage)
+$(".pagination-previous").on("click", previousPage)
+$(".pagination-next").on("click", nextPage)
+
+
+/* Save Travel Details to LocalStorage */
+var saveTravelDetails = function() {
+    localStorage.setItem("storedDestinationDetails", JSON.stringify(destionationDetails));
+};
+
+
+
+function getLocation() {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(showPosition);
+    } else {
+        console.log("Geolocation is not supported by this browser.");
+    }
+}
 
 function showPosition(position) {
     fetch("https://geolocation-db.com/json/697de680-a737-11ea-9820-af05f4014d91")
@@ -343,13 +341,11 @@ function showPosition(position) {
         })
         .then(function(response) {
             getData(response.city);
-            getEventInfo(response.city);
+            getEventInfo(response.city)
             $("#city").val(response.city);
-            $("#navCity").text(response.city);
+            /* saveNewCity(response.city); */
         });
 }
-<<<<<<< HEAD
-=======
 
 var closeModals = function() {
     $("html").removeClass("is-clipped");
@@ -379,15 +375,8 @@ $("#submit").on("click", function() {
     departureDate = $("#modalDepartureDt").val().trim();
     destionationDetails = [destinationCity, arrivalDate, departureDate];
     saveTravelDetails();
-    $("#navCity").text(destinationCity);
     closeModals();
     getData(destinationCity);
-    getEventInfo(destinationCity);
-    pageNumber = 1;
+    getEventInfo(destinationCity)
+    pageNumber = 1
 });
-
-
-$(".pagination-link").on("click", selectEventPage);
-$(".pagination-previous").on("click", previousPage);
-$(".pagination-next").on("click", nextPage);
->>>>>>> develop
