@@ -195,6 +195,8 @@ function getLocation() {
 
 async function getEventInfo(city, arrivalDate, departureDate) {
 
+    var arrivalDateFormat = moment(arrivalDate).format();
+    var departureDateFormat = moment(departureDate).format();
     var eventURL = "https://app.ticketmaster.com/discovery/v2/events.json?city=" + city + "&localStartDateTime=" + "&apikey=" + ticketMasterKey;
 
     var response = await fetch(eventURL);
