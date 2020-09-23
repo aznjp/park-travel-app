@@ -216,7 +216,10 @@ async function getEventInfo(city, arrivalDate, departureDate) {
 
 function generateEventCards(data, startingIndex) {
     $("#eventList").empty();
-    $('#navbar').removeClass("hide");
+    if (data.page.totalElements > 0) {
+        $('#navbar').removeClass("hide");
+        $('.subtitle').text("Take the time to look at your upcoming holidays and plan out your trip as you arrive")
+    }
     let endingIndex = Math.min(startingIndex + 6, data._embedded.events.length);
     for (let index = startingIndex; index < endingIndex; index++) {
 
