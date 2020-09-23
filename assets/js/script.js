@@ -2,7 +2,7 @@
 /* eslint-disable no-undef */
 $(function() {
     var localStorage = getTravelDetails();
-    if(!destionationDetails || destionationDetails.length == 0) {
+    if (!destionationDetails || destionationDetails.length == 0) {
         var locaton = getLocation();
     } else {
         getData(destionationDetails[0]);
@@ -193,9 +193,11 @@ function getLocation() {
 }
 
 
-async function getEventInfo(city) {
+async function getEventInfo(city, arrivalDate, departureDate) {
 
-    var eventURL = "https://app.ticketmaster.com/discovery/v2/events.json?city=" + city + "&apikey=" + ticketMasterKey;
+    var arrivalDateFormat = moment(arrivalDate).format();
+    var departureDateFormat = moment(departureDate).format();
+    var eventURL = "https://app.ticketmaster.com/discovery/v2/events.json?city=" + city + "&startDateTime=" + arrivalDateFormat + "&endDateTime=" + departureDateFormat + "&apikey=" + ticketMasterKey;
 
     var response = await fetch(eventURL);
 
@@ -213,9 +215,9 @@ function generateEventCards(data, startingIndex) {
         var eventName = data._embedded.events[index].name;
 
         var eventType = data._embedded.events[index].classifications[0].segment.name;
-            // This is for the type of entertainment they want (Music, Sports, etc...)
+        // This is for the type of entertainment they want (Music, Sports, etc...)
         var eventGenre = data._embedded.events[index].classifications[0].genre.name;
-            // This is the for the actual genre of said entertainment (Music: Pop, Rock, etc...)
+        // This is the for the actual genre of said entertainment (Music: Pop, Rock, etc...)
 
         console.log(eventName, eventType, eventGenre);
 
@@ -380,7 +382,7 @@ $("#submit").on("click", function() {
     $("#navCity").text(destinationCity);
     closeModals();
     getData(destinationCity);
-    getEventInfo(destinationCity);
+    getEventInfo(destinationCity, arrivalDate, departureDate);
     pageNumber = 1;
 });
 
