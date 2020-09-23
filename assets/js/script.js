@@ -7,6 +7,7 @@ $(function() {
     } else {
         getData(destionationDetails[0]);
         getEventInfo(destionationDetails[0]);
+        lodging();
     }
 });
 var mainCard = $("#weatherRow");
@@ -336,6 +337,31 @@ function previousPage() {
         generateEventCards(data, startingIndex);
     }
 }
+
+/* Lodging Section */
+var lodging = function(){
+    var lodingApiUrl ="https://tripadvisor1.p.rapidapi.com/locations/search?location_id=1&limit=10&sort=relevance&offset=0&lang=en_US&currency=USD&units=mi&query=Orlando";
+
+    fetch(lodingApiUrl, {
+	"method": "GET",
+	"headers": {
+		"x-rapidapi-host": "tripadvisor1.p.rapidapi.com",
+		"x-rapidapi-key": "2a1bf2a5a1msh2f58415ea00fba6p180464jsn98f5bb866a17"
+	}
+})
+.then(function(response) {
+    return response.json();
+})
+.then(function(response){
+    console.log(response);
+    if(response.data[1].result_type === "lodging") {
+        console.log(response.data[1].result_object.address);
+    }
+})
+.catch(err => {
+	console.log(err);
+});
+};
 
 function nextPage() {
     var endingPageNumber = Math.floor(data._embedded.events.length / 6);
