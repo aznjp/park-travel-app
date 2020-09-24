@@ -7,6 +7,7 @@ $(function() {
     } else {
         getData(destionationDetails[0]);
         getEventInfo(destionationDetails[0]);
+        lodging(destionationDetails[0]);
     }
 });
 var mainCard = $("#weatherRow");
@@ -336,64 +337,11 @@ function nextPage() {
 }
 
 
-function showPosition(position) {
-    fetch("https://geolocation-db.com/json/697de680-a737-11ea-9820-af05f4014d91")
-        .then(function(response) {
-            return response.json();
-        })
-        .then(function(response) {
-            getData(response.city);
-            getEventInfo(response.city);
-            $("#city").val(response.city);
-            $("#navCity").text(response.city);
-        });
-}
-
-var closeModals = function() {
-    $("html").removeClass("is-clipped");
-    $("#modal").removeClass("is-active");
-    $("#modal-weather").removeClass("is-active");
-};
-
-$(".modal-button").click(function() {
-    var target = $(this).data("target");
-    $("html").addClass("is-clipped");
-    $(target).addClass("is-active");
-    getTravelDetails();
-});
-
-$(".delete").click(function() {
-    closeModals();
-});
-
-$(".btn-cancel").on("click", function() {
-    closeModals();
-});
-
-$("#submit").on("click", function() {
-    console.log("SUBMIT");
-    destinationCity = $("#modalCity").val().trim();
-    arrivalDate = $("#modalArrivalDt").val().trim();
-    departureDate = $("#modalDepartureDt").val().trim();
-    destionationDetails = [destinationCity, arrivalDate, departureDate];
-    saveTravelDetails();
-    $("#navCity").text(destinationCity);
-    closeModals();
-    getData(destinationCity);
-    getEventInfo(destinationCity);
-    pageNumber = 1;
-});
-
-
-$(".pagination-link").on("click", selectEventPage);
-$(".pagination-previous").on("click", previousPage);
-$(".pagination-next").on("click", nextPage);
 
 
 
-/* Lodging Section */
-var lodging = function() {
-    var lodingApiUrl = "https://tripadvisor1.p.rapidapi.com/locations/search?location_id=1&limit=10&sort=relevance&offset=0&lang=en_US&currency=USD&units=mi&query=Orlando";
+var lodging = function(city) {
+    var lodingApiUrl = "https://tripadvisor1.p.rapidapi.com/locations/search?location_id=1&limit=10&sort=relevance&offset=0&lang=en_US&currency=USD&units=mi&query=" + city;
     fetch(lodingApiUrl, {
             "method": "GET",
             "headers": {
@@ -426,7 +374,7 @@ var lodging = function() {
 
 };
 
-var createLodgingCards = function(data) {
+function createLodgingCards(data) {
     $('#lodgingList').empty()
 
     console.log(data[0].result_object.name)
@@ -435,7 +383,7 @@ var createLodgingCards = function(data) {
     //hotel picture
 
     //TODO:loop for cycling images
-    for (var i = 1; i < 6; i++) {
+    for (var i = 2; i < 7; i++) {
 
         var newLodgingCard = $("<div>").attr("class", "card mr-4");
         var cardHeader = $("<header>").attr("class", "card-header");
@@ -477,4 +425,57 @@ var createLodgingCards = function(data) {
 }
 
 
-lodging();
+function showPosition(position) {
+    fetch("https://geolocation-db.com/json/697de680-a737-11ea-9820-af05f4014d91")
+        .then(function(response) {
+            return response.json();
+        })
+        .then(function(response) {
+            getData(response.city);
+            getEventInfo(response.city);
+            lodging(response.city);
+            $("#city").val(response.city);
+            $("#navCity").text(response.city);
+        });
+}
+
+var closeModals = function() {
+    $("html").removeClass("is-clipped");
+    $("#modal").removeClass("is-active");
+    $("#modal-weather").removeClass("is-active");
+};
+
+$(".modal-button").click(function() {
+    var target = $(this).data("target");
+    $("html").addClass("is-clipped");
+    $(target).addClass("is-active");
+    getTravelDetails();
+});
+
+$(".delete").click(function() {
+    closeModals();
+});
+
+$(".btn-cancel").on("click", function() {
+    closeModals();
+});
+
+$("#submit").on("click", function() {
+    console.log("SUBMIT");
+    destinationCity = $("#modalCity").val().trim();
+    arrivalDate = $("#modalArrivalDt").val().trim();
+    departureDate = $("#modalDepartureDt").val().trim();
+    destionationDetails = [destinationCity, arrivalDate, departureDate];
+    saveTravelDetails();
+    $("#navCity").text(destinationCity);
+    closeModals();
+    getData(destinationCity);
+    getEventInfo(destinationCity);
+    lodging(destinationCity);
+    pageNumber = 1;
+});
+
+
+$(".pagination-link").on("click", selectEventPage);
+$(".pagination-previous").on("click", previousPage);
+$(".pagination-next").on("click", nextPage);
