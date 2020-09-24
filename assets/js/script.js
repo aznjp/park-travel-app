@@ -204,7 +204,7 @@ async function getEventInfo(city, arrivalDate, departureDate) {
 
 function generateEventCards(data, startingIndex) {
     $("#eventList").empty();
-    if (data.page.totalElements > 0) {
+    if (data.page.totalElements >= 0) {
         $('#navbar').removeClass("hide");
         $('.subtitle').text("Take the time to look at your upcoming holidays and plan out your trip as you arrive");
     }
@@ -376,7 +376,7 @@ function createLodgingCards(data) {
     $('#lodgingList').empty();
 
     console.log(data[0].result_object.name);
-        //lodging cards
+    //lodging cards
 
     //hotel picture
 
@@ -411,11 +411,11 @@ function createLodgingCards(data) {
         cardContent.append($("<h4>").html("<strong> Location: </strong>" + hotelAddress).attr("class", "is-size-4-desktop is-size-5"));
 
         console.log(image);
-            //hotel address
+        //hotel address
         console.log(hotelAddress);
-            //hotel rating
+        //hotel rating
         console.log(rating);
-            //hotel name
+        //hotel name
         console.log(hotelName);
         $("#lodgingList").append(newCard);
     }
