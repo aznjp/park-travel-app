@@ -7,7 +7,6 @@ $(function() {
     } else {
         getData(destionationDetails[0]);
         getEventInfo(destionationDetails[0]);
-        lodging();
     }
 });
 var mainCard = $("#weatherRow");
@@ -194,19 +193,9 @@ function getLocation() {
 }
 
 
-async function getEventInfo(city, arrivalDate, departureDate) {
+async function getEventInfo(city) {
 
-    var arrivalDateFormat = moment().format()
-    var departureDateFormat = moment().add(10, "days").format()
-
-    if (arrivalDate) {
-        arrivalDateFormat = moment(arrivalDate).format();
-    }
-    if (departureDate) {
-        departureDateFormat = moment(departureDate).format();
-    }
-
-    var eventURL = "https://app.ticketmaster.com/discovery/v2/events.json?city=" + city + "&startDateTime=" + arrivalDateFormat + "&endDateTime=" + departureDateFormat + "&apikey=" + ticketMasterKey;
+    var eventURL = "https://app.ticketmaster.com/discovery/v2/events.json?city=" + city + "&apikey=" + ticketMasterKey;
 
     var response = await fetch(eventURL);
 
@@ -217,10 +206,7 @@ async function getEventInfo(city, arrivalDate, departureDate) {
 
 function generateEventCards(data, startingIndex) {
     $("#eventList").empty();
-    if (data.page.totalElements > 0) {
-        $('#navbar').removeClass("hide");
-        $('.subtitle').text("Take the time to look at your upcoming holidays and plan out your trip as you arrive")
-    }
+    $('#navbar').removeClass("hide");
     let endingIndex = Math.min(startingIndex + 6, data._embedded.events.length);
     for (let index = startingIndex; index < endingIndex; index++) {
 
@@ -338,31 +324,6 @@ function previousPage() {
     }
 }
 
-/* Lodging Section */
-var lodging = function(){
-    var lodingApiUrl ="https://tripadvisor1.p.rapidapi.com/locations/search?location_id=1&limit=10&sort=relevance&offset=0&lang=en_US&currency=USD&units=mi&query=Orlando";
-
-    fetch(lodingApiUrl, {
-	"method": "GET",
-	"headers": {
-		"x-rapidapi-host": "tripadvisor1.p.rapidapi.com",
-		"x-rapidapi-key": "2a1bf2a5a1msh2f58415ea00fba6p180464jsn98f5bb866a17"
-	}
-})
-.then(function(response) {
-    return response.json();
-})
-.then(function(response){
-    console.log(response);
-    if(response.data[1].result_type === "lodging") {
-        console.log(response.data[1].result_object.address);
-    }
-})
-.catch(err => {
-	console.log(err);
-});
-};
-
 function nextPage() {
     var endingPageNumber = Math.floor(data._embedded.events.length / 6);
     if (pageNumber === endingPageNumber) {
@@ -382,7 +343,7 @@ function showPosition(position) {
         })
         .then(function(response) {
             getData(response.city);
-            getEventInfo(response.city, "", "");
+            getEventInfo(response.city);
             $("#city").val(response.city);
             $("#navCity").text(response.city);
         });
@@ -419,7 +380,7 @@ $("#submit").on("click", function() {
     $("#navCity").text(destinationCity);
     closeModals();
     getData(destinationCity);
-    getEventInfo(destinationCity, arrivalDate, departureDate);
+    getEventInfo(destinationCity);
     pageNumber = 1;
 });
 
@@ -427,6 +388,7 @@ $("#submit").on("click", function() {
 $(".pagination-link").on("click", selectEventPage);
 $(".pagination-previous").on("click", previousPage);
 $(".pagination-next").on("click", nextPage);
+
 
 
 /* Lodging Section */
@@ -444,9 +406,18 @@ var lodging = function() {
         })
         .then(function(response) {
             console.log(response);
-            if (response.data[1].result_type === "lodging") {
+            if (response.data[0].result_type === "geos") {
                 console.log(response.data[1].result_object.address);
+                var areaDescriptionEL = response.data[0].result_object.geo_description
+                $("#area-description").html(areaDescriptionEL)
             }
+            if (response.data[0].result_type === "geos") {
+                console.log(response.data[0].result_object.name)
+            } else {
+                console.log('city info not found')
+            }
+            //cards 
+            createLodgingCards(response.data)
         })
         .catch(err => {
             console.log(err);
@@ -454,5 +425,73 @@ var lodging = function() {
 
 
 };
+
+var createLodgingCards = function(data) {
+    $('#lodgingList').empty()
+
+    console.log(data[0].result_object.name)
+        //lodging cards
+    var newLodgingCard = $("<div>").attr("class", "card mr-4");
+    var cardHeader = $("<header>").attr("class", "card-header");
+    var cardContent = $("<div>").attr("class", "card-content");
+    var cardBody = $("<div>").attr("class", "content");
+    var image = data[i].result_object.photo.images.thumbnail.url
+    var hotelAddress = data[i].result_object.address
+    var rating = data[i].result_object.rating
+    var hotelName = data[i].result_object.name
+        //hotel picture
+
+    //TODO:loop for cycling images
+    for (var i = 1; i < 6; i++) {
+        var newCard = $("<div>").attr({
+            "class": "card column is-one-third is-full-mobile is-half-desktop is-rounded box mt-6 mb-0 my-4 has-text-centered",
+            "id": "lodgingCard"
+        });
+
+        var newCardHeader = $("<div>").attr(
+            "class",
+            "card-header"
+        );
+        var newCardContent1 = $("<div>").attr({
+            "class": "card-content",
+            "id": "card1"
+        });
+        var newCardContentImg = $("<figure>").attr({
+            "class": "card-content image is-4by3",
+            "id": "cardimg"
+        });
+        var newCardContent2 = $("<div>").attr({
+            "class": "card-content mb-3",
+            "id": "card2"
+        });
+        var newCardFooter = $("<div>").attr(
+            "class",
+            "card-footer"
+        );
+        //renders card
+        $(newCard).append(newCardHeader);
+        $(newCard).append(newCardContent1);
+        $(newCard).append(newCardContentImg);
+        $(newCard).append(newCardContent2);
+        $(newCard).append(newCardFooter);
+
+        //inserts card data
+
+        newCardHeader.append($("<h2>").html("<strong>" + hotelName + "</strong>").attr("class", "is-size-3-desktop is-size-4"));
+        newCardContent1.append($("<h3>").html("<strong>" + rating + " out of 5: </strong>").attr("class", "is-siz3-desktop is-size-5"));
+        newCardContent1.append($("<h4>").html("<strong> location: </strong>" + hotelAddress).attr("class", "is-siz3-desktop is-size-5"));
+
+        console.log(image)
+            //hotel address
+        console.log(hotelAddress)
+            //hotel rating
+        console.log(rating)
+            //hotel name
+        console.log(hotelName)
+        $("#lodgingList").append(newCard);
+    }
+
+}
+
 
 lodging();
