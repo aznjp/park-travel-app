@@ -381,7 +381,7 @@ function createLodgingCards(data) {
     //hotel picture
 
     //TODO:loop for cycling images
-    for (var i = 2; i < 7; i++) {
+    for (var i = 2; i < 8; i++) {
 
         var newLodgingCard = $("<div>").attr("class", "card mr-4");
         var cardHeader = $("<header>").attr("class", "card-header");
@@ -393,8 +393,8 @@ function createLodgingCards(data) {
         var hotelName = data[i].result_object.name;
 
         var newCard = $("<div>").attr({
-            "class": "card column is-full is-rounded box mt-6 mb-0 my-4 has-text-centered",
-            "id": "lodgingCard"
+            "class": "card column is-full is-rounded box mt-6 mb-0 my-4 has-text-centered lodge-card",
+            "id": "lodgingCard" + i
         });
 
         //renders card

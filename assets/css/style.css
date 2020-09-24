@@ -186,7 +186,14 @@ input::placeholder {
 
 
 /* Lodging Specific CSS */
+.lodging-list {
+    display: flex;
+    flex-wrap: wrap;
+}
 
 #lodging-background {
     background-color: #42475C;
+}
+.lodge-card {
+    width:50% !important;
 }
