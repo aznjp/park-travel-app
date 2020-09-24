@@ -427,17 +427,68 @@ var lodging = function() {
 };
 
 var createLodgingCards = function(data) {
+    $('#lodgingList').empty()
+
     console.log(data[0].result_object.name)
         //lodging cards
     var newLodgingCard = $("<div>").attr("class", "card mr-4");
     var cardHeader = $("<header>").attr("class", "card-header");
     var cardContent = $("<div>").attr("class", "card-content");
     var cardBody = $("<div>").attr("class", "content");
+    var image = data[i].result_object.photo.images.thumbnail.url
+    var hotelAddress = data[i].result_object.address
+    var rating = data[i].result_object.rating
+    var hotelName = data[i].result_object.name
+        //hotel picture
 
     //TODO:loop for cycling images
     for (var i = 1; i < 6; i++) {
-        var image = data[i].result_object.photo.images.thumbnail.url
+        var newCard = $("<div>").attr({
+            "class": "card column is-one-third is-full-mobile is-half-desktop is-rounded box mt-6 mb-0 my-4 has-text-centered",
+            "id": "lodgingCard"
+        });
+
+        var newCardHeader = $("<div>").attr(
+            "class",
+            "card-header"
+        );
+        var newCardContent1 = $("<div>").attr({
+            "class": "card-content",
+            "id": "card1"
+        });
+        var newCardContentImg = $("<figure>").attr({
+            "class": "card-content image is-4by3",
+            "id": "cardimg"
+        });
+        var newCardContent2 = $("<div>").attr({
+            "class": "card-content mb-3",
+            "id": "card2"
+        });
+        var newCardFooter = $("<div>").attr(
+            "class",
+            "card-footer"
+        );
+        //renders card
+        $(newCard).append(newCardHeader);
+        $(newCard).append(newCardContent1);
+        $(newCard).append(newCardContentImg);
+        $(newCard).append(newCardContent2);
+        $(newCard).append(newCardFooter);
+
+        //inserts card data
+
+        newCardHeader.append($("<h2>").html("<strong>" + hotelName + "</strong>").attr("class", "is-size-3-desktop is-size-4"));
+        newCardContent1.append($("<h3>").html("<strong>" + rating + " out of 5: </strong>").attr("class", "is-siz3-desktop is-size-5"));
+        newCardContent1.append($("<h4>").html("<strong> location: </strong>" + hotelAddress).attr("class", "is-siz3-desktop is-size-5"));
+
         console.log(image)
+            //hotel address
+        console.log(hotelAddress)
+            //hotel rating
+        console.log(rating)
+            //hotel name
+        console.log(hotelName)
+        $("#lodgingList").append(newCard);
     }
 
 }
