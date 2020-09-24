@@ -183,8 +183,8 @@ function getData(city) {
 
 async function getEventInfo(city, arrivalDate, departureDate) {
 
-    var arrivalDateFormat = moment().format()
-    var departureDateFormat = moment().add(10, "days").format()
+    var arrivalDateFormat = moment().format();
+    var departureDateFormat = moment().add(10, "days").format();
 
     if (arrivalDate) {
         arrivalDateFormat = moment(arrivalDate).format();
@@ -206,7 +206,7 @@ function generateEventCards(data, startingIndex) {
     $("#eventList").empty();
     if (data.page.totalElements > 0) {
         $('#navbar').removeClass("hide");
-        $('.subtitle').text("Take the time to look at your upcoming holidays and plan out your trip as you arrive")
+        $('.subtitle').text("Take the time to look at your upcoming holidays and plan out your trip as you arrive");
     }
     let endingIndex = Math.min(startingIndex + 6, data._embedded.events.length);
     for (let index = startingIndex; index < endingIndex; index++) {
@@ -326,13 +326,13 @@ function previousPage() {
 }
 
 function nextPage() {
-    var endingPageNumber = Math.floor(data._embedded.events.length / 6)
+    var endingPageNumber = Math.floor(data._embedded.events.length / 6);
     if (pageNumber === endingPageNumber) {
-        return
+        return;
     } else {
-        pageNumber++
-        var startingIndex = pageNumber * 6 - 6
-        generateEventCards(data, startingIndex)
+        pageNumber++;
+        var startingIndex = pageNumber * 6 - 6;
+        generateEventCards(data, startingIndex);
     }
 }
 
@@ -354,16 +354,16 @@ var lodging = function(city) {
             console.log(response);
             if (response.data[0].result_type === "geos") {
                 console.log(response.data[1].result_object.address);
-                var areaDescriptionEL = response.data[0].result_object.geo_description
-                $("#area-description").html(areaDescriptionEL)
+                var areaDescriptionEL = response.data[0].result_object.geo_description;
+                $("#area-description").html(areaDescriptionEL);
             }
             if (response.data[0].result_type === "geos") {
-                console.log(response.data[0].result_object.name)
+                console.log(response.data[0].result_object.name);
             } else {
-                console.log('city info not found')
+                console.log('city info not found');
             }
             //cards 
-            createLodgingCards(response.data)
+            createLodgingCards(response.data);
         })
         .catch(err => {
             console.log(err);
@@ -373,9 +373,9 @@ var lodging = function(city) {
 };
 
 function createLodgingCards(data) {
-    $('#lodgingList').empty()
+    $('#lodgingList').empty();
 
-    console.log(data[0].result_object.name)
+    console.log(data[0].result_object.name);
         //lodging cards
 
     //hotel picture
@@ -387,10 +387,10 @@ function createLodgingCards(data) {
         var cardHeader = $("<header>").attr("class", "card-header");
         var cardContent = $("<div>").attr("class", "card-content");
         var cardBody = $("<div>").attr("class", "content");
-        var image = data[i].result_object.photo.images.small.url
-        var hotelAddress = data[i].result_object.address
-        var rating = data[i].result_object.rating
-        var hotelName = data[i].result_object.name
+        var image = data[i].result_object.photo.images.small.url;
+        var hotelAddress = data[i].result_object.address;
+        var rating = data[i].result_object.rating;
+        var hotelName = data[i].result_object.name;
 
         var newCard = $("<div>").attr({
             "class": "card column is-full is-rounded box mt-6 mb-0 my-4 has-text-centered",
@@ -410,13 +410,13 @@ function createLodgingCards(data) {
         cardContent.append($("<img>").attr("src", image));
         cardContent.append($("<h4>").html("<strong> Location: </strong>" + hotelAddress).attr("class", "is-size-4-desktop is-size-5"));
 
-        console.log(image)
+        console.log(image);
             //hotel address
-        console.log(hotelAddress)
+        console.log(hotelAddress);
             //hotel rating
-        console.log(rating)
+        console.log(rating);
             //hotel name
-        console.log(hotelName)
+        console.log(hotelName);
         $("#lodgingList").append(newCard);
     }
 
@@ -446,7 +446,7 @@ function showPosition(position) {
         .then(function(response) {
             getData(response.city);
             getEventInfo(response.city, "", "");
-            lodging(response.city)
+            lodging(response.city);
             $("#city").val(response.city);
             $("#navCity").text(response.city);
         });
