@@ -22,8 +22,9 @@
     height: 500px;
     border-top: 10px solid turquoise;
 }
+
 .navbar h2 {
-    color:var(--light-text);
+    color: var(--light-text);
 }
 
 footer {
@@ -181,4 +182,11 @@ input::placeholder {
 
 .hide {
     display: none;
+}
+
+
+/* Lodging Specific CSS */
+
+#lodging-background {
+    background-color: #42475C;
 }
