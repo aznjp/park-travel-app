@@ -222,13 +222,13 @@ function generateEventCards(data, startingIndex) {
             "class",
             "card-footer"
         );
-
+        //renders card
         $(newCard).append(newCardHeader);
         $(newCard).append(newCardContent1);
         $(newCard).append(newCardContentImg);
         $(newCard).append(newCardContent2);
         $(newCard).append(newCardFooter);
-
+        //inserts card data
 
         newCardHeader.append($("<h2>").html("<strong>" + eventName + "</strong>").attr("class", "is-size-3-desktop is-size-4"));
         newCardContent1.append($("<h3>").html("<strong> Activity: </strong>" + eventType).attr("class", "is-siz3-desktop is-size-5"));

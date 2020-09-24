@@ -2,7 +2,7 @@
 /* eslint-disable no-undef */
 $(function() {
     var localStorage = getTravelDetails();
-    if(!destionationDetails || destionationDetails.length == 0) {
+    if (!destionationDetails || destionationDetails.length == 0) {
         var locaton = getLocation();
     } else {
         getData(destionationDetails[0]);
@@ -213,9 +213,9 @@ function generateEventCards(data, startingIndex) {
         var eventName = data._embedded.events[index].name;
 
         var eventType = data._embedded.events[index].classifications[0].segment.name;
-            // This is for the type of entertainment they want (Music, Sports, etc...)
+        // This is for the type of entertainment they want (Music, Sports, etc...)
         var eventGenre = data._embedded.events[index].classifications[0].genre.name;
-            // This is the for the actual genre of said entertainment (Music: Pop, Rock, etc...)
+        // This is the for the actual genre of said entertainment (Music: Pop, Rock, etc...)
 
         console.log(eventName, eventType, eventGenre);
 
@@ -348,8 +348,6 @@ function showPosition(position) {
             $("#navCity").text(response.city);
         });
 }
-<<<<<<< HEAD
-=======
 
 var closeModals = function() {
     $("html").removeClass("is-clipped");
@@ -390,4 +388,32 @@ $("#submit").on("click", function() {
 $(".pagination-link").on("click", selectEventPage);
 $(".pagination-previous").on("click", previousPage);
 $(".pagination-next").on("click", nextPage);
->>>>>>> develop
+
+
+/* Lodging Section */
+var lodging = function() {
+    var lodingApiUrl = "https://tripadvisor1.p.rapidapi.com/locations/search?location_id=1&limit=10&sort=relevance&offset=0&lang=en_US&currency=USD&units=mi&query=Orlando";
+    fetch(lodingApiUrl, {
+            "method": "GET",
+            "headers": {
+                "x-rapidapi-host": "tripadvisor1.p.rapidapi.com",
+                "x-rapidapi-key": "2a1bf2a5a1msh2f58415ea00fba6p180464jsn98f5bb866a17"
+            }
+        })
+        .then(function(response) {
+            return response.json();
+        })
+        .then(function(response) {
+            console.log(response);
+            if (response.data[1].result_type === "lodging") {
+                console.log(response.data[1].result_object.address);
+            }
+        })
+        .catch(err => {
+            console.log(err);
+        });
+
+
+};
+
+lodging();
