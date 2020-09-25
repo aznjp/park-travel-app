@@ -66,7 +66,7 @@ function getData(city) {
             var iconUrl = "http://openweathermap.org/img/w/" + wIcon + ".png";
             var cardHeader = $("<header>").attr("class", "card-header");
             var cityName = $("<p>")
-                .attr("class", "card-header-title")
+                .attr("class", "card-header-title is-capitalized")
                 .html(city + date);
             console.log(cityName);
             cityName.append($("<img>").attr("src", iconUrl));
@@ -198,15 +198,16 @@ async function getEventInfo(city, arrivalDate, departureDate) {
     var response = await fetch(eventURL);
 
     data = await response.json();
-    generateEventCards(data, 0);
     console.log(data);
+    generateEventCards(data, 0);
+
 }
 
 function generateEventCards(data, startingIndex) {
     $("#eventList").empty();
     if (data.page.totalElements > 0) {
         $('#navbar').removeClass("hide");
-        $('.subtitle').text("Take the time to look at your upcoming holidays and plan out your trip as you arrive");
+        $('#event-subtitle').text("Take the time to look at your upcoming holidays and plan out your trip as you arrive");
     }
     let endingIndex = Math.min(startingIndex + 6, data._embedded.events.length);
     for (let index = startingIndex; index < endingIndex; index++) {
@@ -218,7 +219,7 @@ function generateEventCards(data, startingIndex) {
         var eventGenre = data._embedded.events[index].classifications[0].genre.name;
         // This is the for the actual genre of said entertainment (Music: Pop, Rock, etc...)
 
-        console.log(eventName, eventType, eventGenre);
+        // console.log(eventName, eventType, eventGenre);
 
         var newCard = $("<div>").attr({
             "class": "card column is-one-third is-full-mobile is-half-desktop is-rounded box mt-6 mb-0 my-4 has-text-centered",
@@ -351,14 +352,14 @@ var lodging = function(city) {
             return response.json();
         })
         .then(function(response) {
-            console.log(response);
+            // console.log(response);
             if (response.data[0].result_type === "geos") {
-                console.log(response.data[1].result_object.address);
+                // console.log(response.data[1].result_object.address);
                 var areaDescriptionEL = response.data[0].result_object.geo_description;
                 $("#area-description").html(areaDescriptionEL);
             }
             if (response.data[0].result_type === "geos") {
-                console.log(response.data[0].result_object.name);
+                // console.log(response.data[0].result_object.name);
             } else {
                 console.log('city info not found');
             }
@@ -375,7 +376,7 @@ var lodging = function(city) {
 function createLodgingCards(data) {
     $('#lodgingList').empty();
 
-    console.log(data[0].result_object.name);
+    // console.log(data[0].result_object.name);
     //lodging cards
 
     //hotel picture
@@ -410,13 +411,13 @@ function createLodgingCards(data) {
         cardContent.append($("<img>").attr("src", image));
         cardContent.append($("<h4>").html("<strong> Location: </strong>" + hotelAddress).attr("class", "is-size-4-desktop is-size-5"));
 
-        console.log(image);
+        // console.log(image);
         //hotel address
-        console.log(hotelAddress);
+        // console.log(hotelAddress);
         //hotel rating
-        console.log(rating);
+        // console.log(rating);
         //hotel name
-        console.log(hotelName);
+        // console.log(hotelName);
         $("#lodgingList").append(newCard);
     }
 
