@@ -254,8 +254,8 @@ function generateEventCards(data, startingIndex) {
 
 
         newCardHeader.append($("<h2>").html("<strong>" + eventName + "</strong>").attr("class", "is-size-3-desktop is-size-4"));
-        newCardContent1.append($("<h3>").html("<strong> Activity: </strong>" + eventType).attr("class", "is-siz3-desktop is-size-5"));
-        newCardContent1.append($("<h4>").html("<strong> Genre: </strong>" + eventGenre).attr("class", "is-siz3-desktop is-size-5"));
+        newCardContent1.append($("<h3>").html("<strong> Activity: </strong>" + eventType).attr("class", "is-size-3-desktop is-size-5"));
+        newCardContent1.append($("<h4>").html("<strong> Genre: </strong>" + eventGenre).attr("class", "is-size-3-desktop is-size-5"));
 
         for (let j = 0; j < 10; j++) {
             var imageItemRatio = data._embedded.events[index].images[j].ratio;
