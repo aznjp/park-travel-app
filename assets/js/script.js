@@ -223,9 +223,11 @@ function generateEventCards(data, startingIndex) {
 
         var eventType = data._embedded.events[index].classifications[0].segment.name;
         // This is for the type of entertainment they want (Music, Sports, etc...)
-        if (data._embedded.events[index].classifications) {
+        if (data._embedded.events[index].classifications[0].genre) {
             var eventGenre = data._embedded.events[index].classifications[0].genre.name;
             // This is the for the actual genre of said entertainment (Music: Pop, Rock, etc...)
+        } else {
+            eventGenre = "Miscellaneous"
         }
         // console.log(eventName, eventType, eventGenre);
 
@@ -279,8 +281,11 @@ function generateEventCards(data, startingIndex) {
         var eventStartDate = data._embedded.events[index].dates.start.localDate;
         var eventStartDateFormat = moment(eventStartDate, 'YYYY-MM-DD').format('dddd, MMM Do YYYY');
         var eventStartTime = data._embedded.events[index].dates.start.localTime;
-        var eventStartTimeFormat = moment(eventStartTime, 'HH:mm:ss').format('h:mm a');
-
+        if (eventStartTime) {
+            var eventStartTimeFormat = moment(eventStartTime, 'HH:mm:ss').format('h:mm a');
+        } else {
+            eventStartTimeFormat = "TBD"
+        }
         var eventAddress = data._embedded.events[index]._embedded.venues[0].address.line1;
         var eventCity = data._embedded.events[index]._embedded.venues[0].city.name;
         var eventState = data._embedded.events[index]._embedded.venues[0].state.stateCode;
