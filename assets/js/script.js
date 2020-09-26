@@ -216,9 +216,10 @@ function generateEventCards(data, startingIndex) {
 
         var eventType = data._embedded.events[index].classifications[0].segment.name;
         // This is for the type of entertainment they want (Music, Sports, etc...)
-        var eventGenre = data._embedded.events[index].classifications[0].genre.name;
-        // This is the for the actual genre of said entertainment (Music: Pop, Rock, etc...)
-
+        if (data._embedded.events[index].classifications) {
+            var eventGenre = data._embedded.events[index].classifications[0].genre.name;
+            // This is the for the actual genre of said entertainment (Music: Pop, Rock, etc...)
+        }
         // console.log(eventName, eventType, eventGenre);
 
         var newCard = $("<div>").attr({
@@ -352,7 +353,7 @@ var lodging = function(city) {
             return response.json();
         })
         .then(function(response) {
-            // console.log(response);
+            console.log(response);
             if (response.data[0].result_type === "geos") {
                 // console.log(response.data[1].result_object.address);
                 var areaDescriptionEL = response.data[0].result_object.geo_description;
