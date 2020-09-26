@@ -205,10 +205,17 @@ async function getEventInfo(city, arrivalDate, departureDate) {
 
 function generateEventCards(data, startingIndex) {
     $("#eventList").empty();
+    console.log(data)
+
     if (data.page.totalElements > 0) {
+        console.log(typeof data.page.totalElements)
         $('#navbar').removeClass("hide");
         $('#event-subtitle').text("Take the time to look at your upcoming holidays and plan out your trip as you arrive");
+    } else {
+        $('#navbar').addClass("hide")
+        $('#event-subtitle').text("Apologies it seems that there are no current activities occuring in your area")
     }
+
     let endingIndex = Math.min(startingIndex + 6, data._embedded.events.length);
     for (let index = startingIndex; index < endingIndex; index++) {
 
@@ -346,7 +353,7 @@ var lodging = function(city) {
             "method": "GET",
             "headers": {
                 "x-rapidapi-host": "tripadvisor1.p.rapidapi.com",
-                "x-rapidapi-key": "2a1bf2a5a1msh2f58415ea00fba6p180464jsn98f5bb866a17"
+                "x-rapidapi-key": "b9d057c22cmshbcb2d43628ab047p1130b9jsnc582d2010534"
             }
         })
         .then(function(response) {
@@ -487,7 +494,6 @@ $("#submit").on("click", function() {
     getData(destinationCity);
     getEventInfo(destinationCity, arrivalDate, departureDate);
     lodging(destinationCity);
-    pageNumber = 1;
 });
 
 
