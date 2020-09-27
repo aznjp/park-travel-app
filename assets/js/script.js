@@ -353,157 +353,157 @@ function nextPage() {
 
 /* Lodging Section */
 var lodging = function(city) {
-    var lodingApiUrl = "https://tripadvisor1.p.rapidapi.com/locations/search?location_id=1&limit=10&sort=relevance&offset=0&lang=en_US&currency=USD&units=mi&query=" + city;
-    fetch(lodingApiUrl, {
-            "method": "GET",
-            "headers": {
-                "x-rapidapi-host": "tripadvisor1.p.rapidapi.com",
-                "x-rapidapi-key": "b9d057c22cmshbcb2d43628ab047p1130b9jsnc582d2010534"
+        var lodingApiUrl = "https://tripadvisor1.p.rapidapi.com/locations/search?location_id=1&limit=10&sort=relevance&offset=0&lang=en_US&currency=USD&units=mi&query=" + city;
+        fetch(lodingApiUrl, {
+                "method": "GET",
+                "headers": {
+                    "x-rapidapi-host": "tripadvisor1.p.rapidapi.com",
+                    "x-rapidapi-key": "b9d057c22cmshbcb2d43628ab047p1130b9jsnc582d2010534"
+                }
+            })
+            .then(function(response) {
+                return response.json();
+            })
+            .then(function(response) {
+                    console.log(response);
+                    if (response.data[0].result_type === "geos") {
+                        // console.log(response.data[1].result_object.address);
+                        var areaDescriptionEL = response.data[0].result_object.geo_description;
+                        $("#area-description").html(areaDescriptionEL);
+                        var lodgingHeading = response.data[0].result_object.name
+                        $('#lodging-header').html("<strong>Places to Stay and Go in: </strong>" + lodgingHeading)
+                        }
+                        if (response.data[0].result_type === "geos") {
+                            // console.log(response.data[0].result_object.name);
+                        } else {
+                            console.log('city info not found');
+                        }
+                        //cards 
+                        createLodgingCards(response.data);
+                    })
+                .catch(err => {
+                    console.log(err);
+                });
+
+
+            };
+
+        function createLodgingCards(data) {
+            $('#lodgingList').empty();
+
+            // console.log(data[0].result_object.name);
+            //lodging cards
+
+            //hotel picture
+
+            //TODO:loop for cycling images
+            for (var i = 2; i < 8; i++) {
+
+                var newLodgingCard = $("<div>").attr("class", "card mr-4");
+                var cardHeader = $("<header>").attr("class", "card-header");
+                var cardContent = $("<div>").attr("class", "card-content");
+                var cardBody = $("<div>").attr("class", "content");
+                var image = data[i].result_object.photo.images.large.url;
+                var hotelAddress = data[i].result_object.address;
+                var rating = data[i].result_object.rating;
+                var hotelName = data[i].result_object.name;
+                var newCard = $("<div>").attr({
+                    "class": "card column is-full is-rounded box mt-6 mb-0 my-4 has-text-centered lodge-card",
+                    "id": "lodgingCard"
+                });
+
+                //renders card
+                $(newCard).append(newLodgingCard);
+                $(newCard).append(cardHeader);
+                $(newCard).append(cardBody);
+                $(newCard).append(cardContent);
+
+                //inserts card data
+
+                cardHeader.append($("<h2>").html("<strong>" + hotelName + "</strong>").attr("class", "is-size-3-desktop is-size-4"));
+                cardBody.append($("<h3>").html("<strong>" + rating + " out of 5: </strong>").attr("class", "is-size-4-desktop is-size-5"));
+                cardContent.append($("<img>").attr("src", image));
+                cardContent.append($("<h4>").html("<strong> Address: </strong>" + hotelAddress).attr("class", "is-size-4-desktop is-size-5"));
+
+                // console.log(image);
+                //hotel address
+                // console.log(hotelAddress);
+                //hotel rating
+                // console.log(rating);
+                //hotel name
+                // console.log(hotelName);
+                $("#lodgingList").append(newCard);
             }
-        })
-        .then(function(response) {
-            return response.json();
-        })
-        .then(function(response) {
-            console.log(response);
-            if (response.data[0].result_type === "geos") {
-                // console.log(response.data[1].result_object.address);
-                var areaDescriptionEL = response.data[0].result_object.geo_description;
-                $("#area-description").html(areaDescriptionEL);
-                var lodgingHeading = response.data[0].result_object.name
-                $('#lodging-header').html(lodgingHeading)
-            }
-            if (response.data[0].result_type === "geos") {
-                // console.log(response.data[0].result_object.name);
+
+        }
+
+
+        /* Save Travel Details to LocalStorage */
+        var saveTravelDetails = function() {
+            localStorage.setItem("storedDestinationDetails", JSON.stringify(destionationDetails));
+        };
+
+
+
+        function getLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(showPosition);
             } else {
-                console.log('city info not found');
+                console.log("Geolocation is not supported by this browser.");
             }
-            //cards 
-            createLodgingCards(response.data);
-        })
-        .catch(err => {
-            console.log(err);
+        }
+
+        function showPosition(position) {
+            fetch("https://geolocation-db.com/json/697de680-a737-11ea-9820-af05f4014d91")
+                .then(function(response) {
+                    return response.json();
+                })
+                .then(function(response) {
+                    getData(response.city);
+                    getEventInfo(response.city, "", "");
+                    lodging(response.city);
+                    $("#city").val(response.city);
+                    $("#navCity").text(response.city);
+                });
+        }
+
+        var closeModals = function() {
+            $("html").removeClass("is-clipped");
+            $("#modal").removeClass("is-active");
+            $("#modal-weather").removeClass("is-active");
+        };
+
+        $(".modal-button").click(function() {
+            var target = $(this).data("target");
+            $("html").addClass("is-clipped");
+            $(target).addClass("is-active");
+            getTravelDetails();
+        });
+
+        $(".delete").click(function() {
+            closeModals();
+        });
+
+        $(".btn-cancel").on("click", function() {
+            closeModals();
+        });
+
+        $("#submit").on("click", function() {
+            console.log("SUBMIT");
+            destinationCity = $("#modalCity").val().trim();
+            arrivalDate = $("#modalArrivalDt").val().trim();
+            departureDate = $("#modalDepartureDt").val().trim();
+            destionationDetails = [destinationCity, arrivalDate, departureDate];
+            saveTravelDetails();
+            $("#navCity").text(destinationCity);
+            closeModals();
+            getData(destinationCity);
+            getEventInfo(destinationCity, arrivalDate, departureDate);
+            lodging(destinationCity);
+            pageNumber === 1;
         });
 
 
-};
-
-function createLodgingCards(data) {
-    $('#lodgingList').empty();
-
-    // console.log(data[0].result_object.name);
-    //lodging cards
-
-    //hotel picture
-
-    //TODO:loop for cycling images
-    for (var i = 2; i < 8; i++) {
-
-        var newLodgingCard = $("<div>").attr("class", "card mr-4");
-        var cardHeader = $("<header>").attr("class", "card-header");
-        var cardContent = $("<div>").attr("class", "card-content");
-        var cardBody = $("<div>").attr("class", "content");
-        var image = data[i].result_object.photo.images.large.url;
-        var hotelAddress = data[i].result_object.address;
-        var rating = data[i].result_object.rating;
-        var hotelName = data[i].result_object.name;
-        var newCard = $("<div>").attr({
-            "class": "card column is-full is-rounded box mt-6 mb-0 my-4 has-text-centered lodge-card",
-            "id": "lodgingCard"
-        });
-
-        //renders card
-        $(newCard).append(newLodgingCard);
-        $(newCard).append(cardHeader);
-        $(newCard).append(cardBody);
-        $(newCard).append(cardContent);
-
-        //inserts card data
-
-        cardHeader.append($("<h2>").html("<strong>" + hotelName + "</strong>").attr("class", "is-size-3-desktop is-size-4"));
-        cardBody.append($("<h3>").html("<strong>" + rating + " out of 5: </strong>").attr("class", "is-size-4-desktop is-size-5"));
-        cardContent.append($("<img>").attr("src", image));
-        cardContent.append($("<h4>").html("<strong> Address: </strong>" + hotelAddress).attr("class", "is-size-4-desktop is-size-5"));
-
-        // console.log(image);
-        //hotel address
-        // console.log(hotelAddress);
-        //hotel rating
-        // console.log(rating);
-        //hotel name
-        // console.log(hotelName);
-        $("#lodgingList").append(newCard);
-    }
-
-}
-
-
-/* Save Travel Details to LocalStorage */
-var saveTravelDetails = function() {
-    localStorage.setItem("storedDestinationDetails", JSON.stringify(destionationDetails));
-};
-
-
-
-function getLocation() {
-    if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(showPosition);
-    } else {
-        console.log("Geolocation is not supported by this browser.");
-    }
-}
-
-function showPosition(position) {
-    fetch("https://geolocation-db.com/json/697de680-a737-11ea-9820-af05f4014d91")
-        .then(function(response) {
-            return response.json();
-        })
-        .then(function(response) {
-            getData(response.city);
-            getEventInfo(response.city, "", "");
-            lodging(response.city);
-            $("#city").val(response.city);
-            $("#navCity").text(response.city);
-        });
-}
-
-var closeModals = function() {
-    $("html").removeClass("is-clipped");
-    $("#modal").removeClass("is-active");
-    $("#modal-weather").removeClass("is-active");
-};
-
-$(".modal-button").click(function() {
-    var target = $(this).data("target");
-    $("html").addClass("is-clipped");
-    $(target).addClass("is-active");
-    getTravelDetails();
-});
-
-$(".delete").click(function() {
-    closeModals();
-});
-
-$(".btn-cancel").on("click", function() {
-    closeModals();
-});
-
-$("#submit").on("click", function() {
-    console.log("SUBMIT");
-    destinationCity = $("#modalCity").val().trim();
-    arrivalDate = $("#modalArrivalDt").val().trim();
-    departureDate = $("#modalDepartureDt").val().trim();
-    destionationDetails = [destinationCity, arrivalDate, departureDate];
-    saveTravelDetails();
-    $("#navCity").text(destinationCity);
-    closeModals();
-    getData(destinationCity);
-    getEventInfo(destinationCity, arrivalDate, departureDate);
-    lodging(destinationCity);
-    pageNumber === 1;
-});
-
-
-$(".pagination-link").on("click", selectEventPage);
-$(".pagination-previous").on("click", previousPage);
-$(".pagination-next").on("click", nextPage);
+        $(".pagination-link").on("click", selectEventPage);
+        $(".pagination-previous").on("click", previousPage);
+        $(".pagination-next").on("click", nextPage);
