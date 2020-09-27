@@ -39,7 +39,7 @@ An application that will run in the browser and feature dynamically updated HTML
 <br>
 ### Screenshot
 
-![Weather Dashboard](https://raw.githubusercontent.com/fondofhats/weather-dashboard/master/assets/images/Park-Travel-App.png)
+![Park Travel App](https://raw.githubusercontent.com/aznjp/park-travel-app/master/assets/images/Park-Travel-App.png)
 
 <br>
 
