@@ -66,7 +66,7 @@ function getData(city) {
             var iconUrl = "http://openweathermap.org/img/w/" + wIcon + ".png";
             var cardHeader = $("<header>").attr("class", "card-header");
             var cityName = $("<p>")
-                .attr("class", "card-header-title")
+                .attr("class", "card-header-title is-capitalized")
                 .html(city + date);
             console.log(cityName);
             cityName.append($("<img>").attr("src", iconUrl));
@@ -198,16 +198,24 @@ async function getEventInfo(city, arrivalDate, departureDate) {
     var response = await fetch(eventURL);
 
     data = await response.json();
-    generateEventCards(data, 0);
     console.log(data);
+    generateEventCards(data, 0);
+
 }
 
 function generateEventCards(data, startingIndex) {
     $("#eventList").empty();
+    console.log(data)
+
     if (data.page.totalElements > 0) {
+        console.log(typeof data.page.totalElements)
         $('#navbar').removeClass("hide");
-        $('.subtitle').text("Take the time to look at your upcoming holidays and plan out your trip as you arrive");
+        $('#event-subtitle').text("Take the time to look at your upcoming holidays and plan out your trip as you arrive");
+    } else {
+        $('#navbar').addClass("hide")
+        $('#event-subtitle').text("Apologies it seems that there are no current activities occuring in your area")
     }
+
     let endingIndex = Math.min(startingIndex + 6, data._embedded.events.length);
     for (let index = startingIndex; index < endingIndex; index++) {
 
@@ -215,10 +223,13 @@ function generateEventCards(data, startingIndex) {
 
         var eventType = data._embedded.events[index].classifications[0].segment.name;
         // This is for the type of entertainment they want (Music, Sports, etc...)
-        var eventGenre = data._embedded.events[index].classifications[0].genre.name;
-        // This is the for the actual genre of said entertainment (Music: Pop, Rock, etc...)
-
-        console.log(eventName, eventType, eventGenre);
+        if (data._embedded.events[index].classifications[0].genre) {
+            var eventGenre = data._embedded.events[index].classifications[0].genre.name;
+            // This is the for the actual genre of said entertainment (Music: Pop, Rock, etc...)
+        } else {
+            eventGenre = "Miscellaneous"
+        }
+        // console.log(eventName, eventType, eventGenre);
 
         var newCard = $("<div>").attr({
             "class": "card column is-one-third is-full-mobile is-half-desktop is-rounded box mt-6 mb-0 my-4 has-text-centered",
@@ -254,8 +265,8 @@ function generateEventCards(data, startingIndex) {
 
 
         newCardHeader.append($("<h2>").html("<strong>" + eventName + "</strong>").attr("class", "is-size-3-desktop is-size-4"));
-        newCardContent1.append($("<h3>").html("<strong> Activity: </strong>" + eventType).attr("class", "is-siz3-desktop is-size-5"));
-        newCardContent1.append($("<h4>").html("<strong> Genre: </strong>" + eventGenre).attr("class", "is-siz3-desktop is-size-5"));
+        newCardContent1.append($("<h3>").html("<strong> Activity: </strong>" + eventType).attr("class", "is-size-3-desktop is-size-5"));
+        newCardContent1.append($("<h4>").html("<strong> Genre: </strong>" + eventGenre).attr("class", "is-size-3-desktop is-size-5"));
 
         for (let j = 0; j < 10; j++) {
             var imageItemRatio = data._embedded.events[index].images[j].ratio;
@@ -270,8 +281,11 @@ function generateEventCards(data, startingIndex) {
         var eventStartDate = data._embedded.events[index].dates.start.localDate;
         var eventStartDateFormat = moment(eventStartDate, 'YYYY-MM-DD').format('dddd, MMM Do YYYY');
         var eventStartTime = data._embedded.events[index].dates.start.localTime;
-        var eventStartTimeFormat = moment(eventStartTime, 'HH:mm:ss').format('h:mm a');
-
+        if (eventStartTime) {
+            var eventStartTimeFormat = moment(eventStartTime, 'HH:mm:ss').format('h:mm a');
+        } else {
+            eventStartTimeFormat = "TBD"
+        }
         var eventAddress = data._embedded.events[index]._embedded.venues[0].address.line1;
         var eventCity = data._embedded.events[index]._embedded.venues[0].city.name;
         var eventState = data._embedded.events[index]._embedded.venues[0].state.stateCode;
@@ -344,7 +358,7 @@ var lodging = function(city) {
             "method": "GET",
             "headers": {
                 "x-rapidapi-host": "tripadvisor1.p.rapidapi.com",
-                "x-rapidapi-key": "2a1bf2a5a1msh2f58415ea00fba6p180464jsn98f5bb866a17"
+                "x-rapidapi-key": "b9d057c22cmshbcb2d43628ab047p1130b9jsnc582d2010534"
             }
         })
         .then(function(response) {
@@ -353,12 +367,12 @@ var lodging = function(city) {
         .then(function(response) {
             console.log(response);
             if (response.data[0].result_type === "geos") {
-                console.log(response.data[1].result_object.address);
+                // console.log(response.data[1].result_object.address);
                 var areaDescriptionEL = response.data[0].result_object.geo_description;
                 $("#area-description").html(areaDescriptionEL);
             }
             if (response.data[0].result_type === "geos") {
-                console.log(response.data[0].result_object.name);
+                // console.log(response.data[0].result_object.name);
             } else {
                 console.log('city info not found');
             }
@@ -375,8 +389,8 @@ var lodging = function(city) {
 function createLodgingCards(data) {
     $('#lodgingList').empty();
 
-    console.log(data[0].result_object.name);
-        //lodging cards
+    // console.log(data[0].result_object.name);
+    //lodging cards
 
     //hotel picture
 
@@ -410,13 +424,13 @@ function createLodgingCards(data) {
         cardContent.append($("<img>").attr("src", image));
         cardContent.append($("<h4>").html("<strong> Location: </strong>" + hotelAddress).attr("class", "is-size-4-desktop is-size-5"));
 
-        console.log(image);
-            //hotel address
-        console.log(hotelAddress);
-            //hotel rating
-        console.log(rating);
-            //hotel name
-        console.log(hotelName);
+        // console.log(image);
+        //hotel address
+        // console.log(hotelAddress);
+        //hotel rating
+        // console.log(rating);
+        //hotel name
+        // console.log(hotelName);
         $("#lodgingList").append(newCard);
     }
 
@@ -485,7 +499,7 @@ $("#submit").on("click", function() {
     getData(destinationCity);
     getEventInfo(destinationCity, arrivalDate, departureDate);
     lodging(destinationCity);
-    pageNumber = 1;
+    pageNumber === 1;
 });
 
 

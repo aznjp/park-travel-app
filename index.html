@@ -18,9 +18,13 @@
             <div class="navbar-end">
                 <div class="navbar-item">
                     <h2>Searching</h2>
+                </div>
+                <div class="navbar-item">
                     <h2>
-                        <p class="nav-label" id="navCity"></p>
+                        <p class="nav-label is-capitalized" id="navCity"></p>
                     </h2>
+                </div>
+                <div class="navbar-item">
                     <button class="button is-primary is-small modal-button" data-target="#modal" aria-haspopup="true">Select Travel Details&ensp;<i class="fad fa-chevron-right"></i></button>
                 </div>
             </div>
@@ -76,7 +80,9 @@
 
                         <h1 class="title is-1">Plan out your Events</h1>
                         <hr class="content-divider">
-                        <h2 class="subtitle">Apologies it seems that there are no current activities occuring in your area</h2>
+
+                        <h2 class="subtitle" id="event-subtitle">Apologies it seems that there are no current activities occuring in your area</h2>
+                        <button class="button is-primary is-small modal-button" data-target="#modal" aria-haspopup="true">Select Event Destination&ensp;<i class="fad fa-chevron-right"></i></button>
 
                         <div id="eventList">
                             <!-- This is where all of my card divs will go once they are pulled from ticketmaster API -->
@@ -169,7 +175,7 @@
     <footer class="footer">
         <div class="content has-text-centered">
             <p>
-                <strong>Park Travel App</strong> <small>&copy; Copyright 2018</small>
+                <strong>Park Travel App</strong> <small>&copy; Copyright 2020</small>
             </p>
         </div>
     </footer>
