@@ -7,7 +7,8 @@
 
 ## Requirements/Description
 ### Description
-A travel dashboard that runs in the browser and features dynamically updated HTML and CSS using third party API's.
+A travel dashboard that runs in the browser and features dynamically updated HTML and CSS using third party API's. Allows users to search for weather, events and accomidation suggestions for a given city
+and date range.
 <br>
 ### Requirements
 #### User Story
