@@ -39,15 +39,9 @@ An application that will run in the browser and feature dynamically updated HTML
 <br>
 ### Screenshot
 
-![Weather Dashboard](https://raw.githubusercontent.com/fondofhats/weather-dashboard/master/assets/images/Park-Travel-App.png)
+![Park Travel App](https://raw.githubusercontent.com/aznjp/park-travel-app/master/assets/images/Park-Travel-App.png)
 
 <br>
-
-<!--
-## Version
-[![Version](https://badge.fury.io/gh/fondofhats%2weather-dashboard.svg)](https://badge.fury.io/gh/fondofhats%2weather-dashboard)
-[![GitHub version](https://badge.fury.io/gh/fondofhats%2Fbadges.svg)](http://badge.fury.io/gh/fondofhats%2weather-dashboard)
--->
 
 ## Issues
 [![GitHub issues](https://img.shields.io/github/issues/aznjp/park-travel-app.svg)](https://GitHub.com/aznjp/park-travel-app/issues/)
