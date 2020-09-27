@@ -423,7 +423,7 @@ function createLodgingCards(data) {
         cardHeader.append($("<h2>").html("<strong>" + hotelName + "</strong>").attr("class", "is-size-3-desktop is-size-4"));
         cardBody.append($("<h3>").html("<strong>" + rating + " out of 5: </strong>").attr("class", "is-size-4-desktop is-size-5"));
         cardContent.append($("<img>").attr("src", image));
-        cardContent.append($("<h4>").html("<strong> Location: </strong>" + hotelAddress).attr("class", "is-size-4-desktop is-size-5"));
+        cardContent.append($("<h4>").html("<strong> Address: </strong>" + hotelAddress).attr("class", "is-size-4-desktop is-size-5"));
 
         // console.log(image);
         //hotel address
