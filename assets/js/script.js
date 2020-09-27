@@ -205,15 +205,15 @@ async function getEventInfo(city, arrivalDate, departureDate) {
 
 function generateEventCards(data, startingIndex) {
     $("#eventList").empty();
-    console.log(data)
+    console.log(data);
 
     if (data.page.totalElements > 0) {
-        console.log(typeof data.page.totalElements)
+        console.log(typeof data.page.totalElements);
         $('#navbar').removeClass("hide");
         $('#event-subtitle').text("Take the time to look at your upcoming holidays and plan out your trip as you arrive");
     } else {
-        $('#navbar').addClass("hide")
-        $('#event-subtitle').text("Apologies it seems that there are no current activities occuring in your area")
+        $('#navbar').addClass("hide");
+        $('#event-subtitle').text("Apologies it seems that there are no current activities occuring in your area");
     }
 
     let endingIndex = Math.min(startingIndex + 6, data._embedded.events.length);
@@ -227,7 +227,7 @@ function generateEventCards(data, startingIndex) {
             var eventGenre = data._embedded.events[index].classifications[0].genre.name;
             // This is the for the actual genre of said entertainment (Music: Pop, Rock, etc...)
         } else {
-            eventGenre = "Miscellaneous"
+            eventGenre = "Miscellaneous";
         }
         // console.log(eventName, eventType, eventGenre);
 
@@ -284,7 +284,7 @@ function generateEventCards(data, startingIndex) {
         if (eventStartTime) {
             var eventStartTimeFormat = moment(eventStartTime, 'HH:mm:ss').format('h:mm a');
         } else {
-            eventStartTimeFormat = "TBD"
+            eventStartTimeFormat = "TBD";
         }
         var eventAddress = data._embedded.events[index]._embedded.venues[0].address.line1;
         var eventCity = data._embedded.events[index]._embedded.venues[0].city.name;
