@@ -499,6 +499,7 @@ $("#submit").on("click", function() {
     getData(destinationCity);
     getEventInfo(destinationCity, arrivalDate, departureDate);
     lodging(destinationCity);
+    pageNumber === 1;
 });
 
 
