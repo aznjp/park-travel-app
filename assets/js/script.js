@@ -370,6 +370,8 @@ var lodging = function(city) {
                 // console.log(response.data[1].result_object.address);
                 var areaDescriptionEL = response.data[0].result_object.geo_description;
                 $("#area-description").html(areaDescriptionEL);
+                var lodgingHeading = response.data[0].result_object.name
+                $('#lodging-header').html(lodgingHeading)
             }
             if (response.data[0].result_type === "geos") {
                 // console.log(response.data[0].result_object.name);
@@ -401,14 +403,13 @@ function createLodgingCards(data) {
         var cardHeader = $("<header>").attr("class", "card-header");
         var cardContent = $("<div>").attr("class", "card-content");
         var cardBody = $("<div>").attr("class", "content");
-        var image = data[i].result_object.photo.images.small.url;
+        var image = data[i].result_object.photo.images.large.url;
         var hotelAddress = data[i].result_object.address;
         var rating = data[i].result_object.rating;
         var hotelName = data[i].result_object.name;
-
         var newCard = $("<div>").attr({
             "class": "card column is-full is-rounded box mt-6 mb-0 my-4 has-text-centered lodge-card",
-            "id": "lodgingCard" + i
+            "id": "lodgingCard"
         });
 
         //renders card

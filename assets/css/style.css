@@ -186,14 +186,24 @@ input::placeholder {
 
 
 /* Lodging Specific CSS */
+
 .lodging-list {
     display: flex;
     flex-wrap: wrap;
 }
 
-#lodging-background {
-    background-color: #42475C;
+#lodgingCard {
+    background-color: lightblue;
+    transition: 0.3s;
 }
+
 .lodge-card {
-    width:50% !important;
+    width: 50% !important;
 }
+
+#lodgingCard:hover {
+    background-color: cornflowerblue;
+    color: white;
+}
+
+.lodgingList
